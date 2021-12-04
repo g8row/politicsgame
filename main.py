@@ -3,6 +3,7 @@ from sys import exit
 
 print('hello pygame')
 
+
 width, height =  800, 600
 
 pygame.init();
