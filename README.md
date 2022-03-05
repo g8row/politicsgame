@@ -6,7 +6,7 @@ A political simulator game that puts you in the shoes of the Bulgarian Prime Min
 
 Install pygame and pygame_gui:
 
-`pip install pygame`
+`pip install pygame`\
 `pip install pygame_gui -U`
 
 Then run `src/main.py` with Python :)

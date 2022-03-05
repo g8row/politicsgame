@@ -14,8 +14,6 @@ def init(gs: GameState):
 def draw(gs: GameState):
     room = gs.images["room"]
     cx, cy = gs.center
-
-    # Центрирай стаята
     cx -= room.get_width() / 2
     cy -= room.get_height() / 2
     gs.world_render_target.blit(room, (cx, cy))
