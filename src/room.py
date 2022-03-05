@@ -12,6 +12,8 @@ def init(gs: GameState):
 
 
 def draw(gs: GameState):
+    gs.world_render_target.fill("0xfff6d9")  # Едно хубаво жълтичко
+    
     room = gs.images["room"]
     cx, cy = gs.center
     cx -= room.get_width() / 2

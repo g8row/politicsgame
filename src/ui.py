@@ -14,5 +14,5 @@ def on_event(gs: GameState, e: Event):
     pass
 
 
-def draw(gs: GameState):
+def frame(gs: GameState):
     pass

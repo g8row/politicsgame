@@ -28,6 +28,8 @@ target_fps = 60
 frame_time_ns = 1.0 / target_fps * 10 ** 9
 
 room.init(gs)
+room.draw(gs)
+
 debug_ui.init(gs)
 ui.init(gs)
 
@@ -42,12 +44,9 @@ while True:
         ui.on_event(gs, e)
         gs.ui_manager.process_events(e)
 
-    gs.world_render_target.fill("0xfff6d9")  # Едно хубаво жълтичко
-
     # Тук се случва цялата логика за всеки фрейм
-    room.draw(gs)
-    ui.draw(gs)
-    debug_ui.draw(gs)
+    ui.frame(gs)
+    debug_ui.frame(gs)
 
     gs.win.blit(pygame.transform.scale(
         gs.world_render_target, (800, 600)), (0, 0))
@@ -63,6 +62,6 @@ while True:
     diff = curr_time - prev_time
     prev_time = curr_time
 
-    pygame.display.flip()
+    pygame.display.update()
 
     time.sleep(max(frame_time_ns - diff, 0) / 10 ** 9)

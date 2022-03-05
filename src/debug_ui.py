@@ -24,5 +24,5 @@ def on_event(gs: GameState, e: Event):
         print(command)   # За сега не хендълваме нищо
  
 
-def draw(gs: GameState):
+def frame(gs: GameState):
     pass
