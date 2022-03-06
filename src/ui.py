@@ -12,26 +12,17 @@ def init(gs: GameState):
 
     gs.dialogue_box = DialogueBox(gs.ui_manager)
     gs.dialogue_box.prompt(
-        type=DialogueBoxType.ASK_FOR_IDENTITY,
+        type=DialogueBoxType.JUST_OK,
         title="Опа, здравей",
         desc_html=
-        "<font face='Pala', color='#000000', size=4>Добре дошъл.<br><br>Ти си министър-председателят на <b>Република България</b>.<br>От твоя кабинет ще се взимат най-важните решения, от които ще зависи бъдещето на страната.<br><br>Но първо... представи се.</font>"
+        "<font face='Pala', color='#000000', size=4>Добре дошъл.<br><br>Ти си министър-председателят на <b>Република България</b>.<br>От твоя кабинет ще се взимат най-важните решения, от които ще зависи бъдещето на страната.<br><br>Но първо... представи се!</font>"
     )
+
+    gs.dialogue_box.prompt(type=DialogueBoxType.ASK_FOR_IDENTITY, title="Ти си, шефе", desc_html="")
 
 
 def on_event(gs: GameState, e: Event):
     gs.dialogue_box.on_event(e)
-
-    if e.type == pygame.KEYDOWN:
-        if e.key == pygame.K_F2:
-            gs.dialogue_box.hide()
-        if e.key == pygame.K_F3:
-            gs.dialogue_box.prompt(
-                type=DialogueBoxType.ASK_FOR_IDENTITY,
-                title="Опа, здравей",
-                desc_html=
-                "<font face='Pala', color='#000000', size=4>Добре дошъл.<br><br>Ти си министър-председателят на <b>Република България</b>.<br>От твоя кабинет ще се взимат най-важните решения, от които ще зависи бъдещето на страната.<br><br>Но първо... представи се.</font>"
-            )
 
     if e.type == pygame.MOUSEBUTTONDOWN and e.button == pygame.BUTTON_LEFT:
         mx, my = pygame.mouse.get_pos()

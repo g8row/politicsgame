@@ -21,6 +21,10 @@ class DialogueBoxType(Enum):
     MULTIPLE_CHOICE = 3     # Not implemented
 
 
+def cubic_bezier(t: float, p0: float, p1: float, p2: float, p3: float) -> float:
+    return (1.0 - t)**3 * p0 + 3 * (1.0 - t)**2 * t * p1 + 3 * (1.0 - t) * t**2 * p2 + t**3 * p3
+
+
 class DialogueBox:
     # Тези се определят от изображението (GeneralPrompt.png)
     DIM = 600, 499
@@ -40,12 +44,18 @@ class DialogueBox:
     USABLE_HEIGHT_AFTER_PADDING: int
 
     BUTTON_DIM = (90, 50)
+    GENDERLIST_DIM = (130, 25)
+    CHARACTER_DIM = (80, 110)
 
     panel: gui.elements.UIPanel
     title: gui.elements.UILabel
     desc: gui.elements.UITextBox
     textentry: gui.elements.UITextEntryLine
     okbutton: gui.elements.UIButton
+    genderlist: gui.elements.UISelectionList
+    character: gui.elements.UIImage
+
+    queue = []
 
     def set_title(self, text: str):
         self.title.set_text(text)
@@ -62,39 +72,57 @@ class DialogueBox:
         self.desc.set_text(html_text)
         self.desc.set_active_effect(gui.TEXT_EFFECT_TYPING_APPEAR, params={"time_per_letter": 0.05})
         self.desc.hide()
-        self.to_show_next_frame = 1
+        self.desc_to_show_next_frames = 1
 
     def prompt(self, type: DialogueBoxType, title: str, desc_html: str):
+        if self.panel.visible == 0:
+            self._actually_prompt(type, title, desc_html)
+        else:
+            self.queue.append((type, title, desc_html))
+
+    def _actually_prompt(self, type: DialogueBoxType, title: str, desc_html: str):
         self.panel.show()
-        self.panel.enable()
         self.set_title(title)
-        self.desc.hide()
+
+        if type == DialogueBoxType.ASK_FOR_IDENTITY:
+            desc_height_diff = (self.BUTTON_DIM[1] + self.ELEMENT_PADDING) * 2
+            self.textentry.show()
+            self.genderlist.show()
+            self.character.show()
+            self.desc.hide()
+            return
 
         desc_height_diff = 0
-        if type == DialogueBoxType.ASK_FOR_IDENTITY:
+        if type == DialogueBoxType.JUST_OK:
             desc_height_diff = self.BUTTON_DIM[1] + self.ELEMENT_PADDING
             self.textentry.hide()
+            self.genderlist.hide()
+            self.character.hide()
 
         self.desc.set_dimensions((self.desc.rect.width, self.USABLE_HEIGHT_AFTER_PADDING - desc_height_diff))
         self.set_desc(desc_html)
 
     def hide(self):
-        self.panel.hide()
-        self.desc.set_text("")
-        self.desc.set_active_effect(None)
+        if len(self.queue) == 0:
+            self.panel.hide()
+        else:
+            self._actually_prompt(*self.queue[0])
+            self.queue = self.queue[1:]
 
     def frame(self):
-        if self.to_show_next_frame == 5:
+        # Това е хак, защото pygame_gui има лек бъг с text typing ефекта..
+        # Държим текста невидим за 5 фрейма докато не почне да пише първата буква,
+        # иначе има лек период, в който е видимо цялото описание.
+        if self.desc_to_show_next_frames == 5:
             self.desc.show()
-            self.to_show_next_frame = 0
-        if self.to_show_next_frame != 0:
-            self.to_show_next_frame += 1
+            self.desc_to_show_next_frames = 0
+        if self.desc_to_show_next_frames != 0:
+            self.desc_to_show_next_frames += 1
 
     def on_event(self, e: Event):
         if e.type == gui.UI_BUTTON_PRESSED:
             if e.ui_element == self.okbutton:
-                print("Ok!")
-                self.panel.disable()
+                self.hide()
 
     def __init__(self, ui_manager: gui.UIManager):
         self.panel = gui.elements.UIPanel(
@@ -137,7 +165,7 @@ class DialogueBox:
         dy += self.PADDING
 
         self.okbutton = gui.elements.UIButton(
-            relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), (button_width, button_height)),
+            relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), self.BUTTON_DIM),
             text="Добре",
             manager=ui_manager,
             container=self.panel,
@@ -152,19 +180,50 @@ class DialogueBox:
         )
 
         self.textentry = gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((x, -dy), (w, button_height)),
+            relative_rect=pygame.Rect((x, y), (w, button_height)),
             manager=ui_manager,
             container=self.panel,
             object_id="#dialogue_box_textentry",
-            visible=0,
-            anchors={
-                'top': 'bottom',
-                'left': 'left',
-                'bottom': 'bottom',
-                'right': 'left'
-            }
+            visible=0
         )
         self.textentry.set_text("Име...")
+
+        genderlist_width, genderlist_height = self.GENDERLIST_DIM
+
+        self.genderlist = gui.elements.UIDropDownMenu(
+            relative_rect=pygame.Rect((x + (w - genderlist_width) / 2, self.ELEMENT_PADDING + 10), self.GENDERLIST_DIM),
+            options_list=["Жена", "Небинарен", "Мъж"],
+            starting_option="Жена",
+            manager=ui_manager,
+            container=self.panel,
+            object_id="#dialogue_box_genderlist",
+            visible=0,
+            anchors={
+                'top': 'top',
+                'left': 'left',
+                'bottom': 'top',
+                'right': 'left',
+                'top_target': self.textentry
+            }
+        )
+
+        character_width, character_height = self.CHARACTER_DIM
+
+        self.character = gui.elements.UIImage(
+            relative_rect=pygame.Rect((x + (w - character_width) / 2, self.ELEMENT_PADDING + 35), self.CHARACTER_DIM),
+            image_surface=pygame.transform.scale(pygame.image.load("data/character.png"), self.CHARACTER_DIM),
+            manager=ui_manager,
+            container=self.panel,
+            object_id="#dialogue_box_character",
+            visible=0,
+            anchors={
+                'top': 'top',
+                'left': 'left',
+                'bottom': 'top',
+                'right': 'left',
+                'top_target': self.genderlist
+            }
+        )
 
         self.desc = gui.elements.UITextBox(
             html_text="", relative_rect=pygame.Rect((x, y), (w, h)), manager=ui_manager, container=self.panel, object_id="#dialogue_box_desc"

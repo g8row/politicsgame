@@ -5,7 +5,7 @@
             "hovered_bg": "#6d90ed",
             "disabled_bg": "#4f76e0",
             "selected_bg": "#4f76e0",
-            "dark_bg": "#fb8691",
+            "dark_bg": "#4f76e0",
             "disabled_dark_bg": "#fb8691",
             "normal_text": "#ffffff",
             "hovered_text": "#101010",
