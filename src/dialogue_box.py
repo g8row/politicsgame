@@ -1,6 +1,8 @@
 import pygame
 import pygame_gui as gui
 
+from pygame.event import Event
+
 from enum import Enum
 
 
@@ -27,16 +29,23 @@ class DialogueBox:
     USABLE_TOP_LEFT = (28, 43)
     USABLE_DIM = (545, 420)
 
-    PADDING = 25
+    PADDING = 25     # Между ръбовете на prompt-а
+    ELEMENT_PADDING = 10     # Между елементите вътре
     TOP_PADDING_BONUS = 20
 
     # Синьото място за заглавие
     TITLE_TOP_LEFT = (200, 13)
     TITLE_DIM = (200, 54)
 
+    USABLE_HEIGHT_AFTER_PADDING: int
+
+    BUTTON_DIM = (90, 50)
+
     panel: gui.elements.UIPanel
     title: gui.elements.UILabel
     desc: gui.elements.UITextBox
+    textentry: gui.elements.UITextEntryLine
+    okbutton: gui.elements.UIButton
 
     def set_title(self, text: str):
         self.title.set_text(text)
@@ -52,21 +61,57 @@ class DialogueBox:
     def set_desc(self, html_text: str):
         self.desc.set_text(html_text)
         self.desc.set_active_effect(gui.TEXT_EFFECT_TYPING_APPEAR, params={"time_per_letter": 0.05})
+        self.desc.hide()
+        self.to_show_next_frame = 1
 
     def prompt(self, type: DialogueBoxType, title: str, desc_html: str):
         self.panel.show()
-        pass
+        self.panel.enable()
+        self.set_title(title)
+        self.desc.hide()
+
+        desc_height_diff = 0
+        if type == DialogueBoxType.ASK_FOR_IDENTITY:
+            desc_height_diff = self.BUTTON_DIM[1] + self.ELEMENT_PADDING
+            self.textentry.hide()
+
+        self.desc.set_dimensions((self.desc.rect.width, self.USABLE_HEIGHT_AFTER_PADDING - desc_height_diff))
+        self.set_desc(desc_html)
 
     def hide(self):
         self.panel.hide()
+        self.desc.set_text("")
+        self.desc.set_active_effect(None)
+
+    def frame(self):
+        if self.to_show_next_frame == 5:
+            self.desc.show()
+            self.to_show_next_frame = 0
+        if self.to_show_next_frame != 0:
+            self.to_show_next_frame += 1
+
+    def on_event(self, e: Event):
+        if e.type == gui.UI_BUTTON_PRESSED:
+            if e.ui_element == self.okbutton:
+                print("Ok!")
+                self.panel.disable()
 
     def __init__(self, ui_manager: gui.UIManager):
         self.panel = gui.elements.UIPanel(
-            relative_rect=center(ui_manager.root_container, self.DIM), starting_layer_height=10, manager=ui_manager, object_id="#dialogue_box"
+            relative_rect=center(ui_manager.root_container, self.DIM),
+            starting_layer_height=10,
+            manager=ui_manager,
+            object_id="#dialogue_box",
+            visible=0
         )
 
         self.title = gui.elements.UILabel(
-            relative_rect=pygame.Rect((0, 0), (-1, -1)), text="", manager=ui_manager, container=self.panel, object_id="#dialogue_box_title"
+            relative_rect=pygame.Rect((0, 0), (-1, -1)),
+            text="",
+            manager=ui_manager,
+            container=self.panel,
+            object_id="#dialogue_box_title",
+            visible=0
         )
 
         ux, uy = self.USABLE_TOP_LEFT
@@ -81,26 +126,46 @@ class DialogueBox:
         w -= self.PADDING * 2
         h -= self.PADDING * 2 + self.TOP_PADDING_BONUS
 
-        self.desc = gui.elements.UITextBox(
-            html_text="",
-            relative_rect=pygame.Rect((x, y), (w, h)),
+        self.USABLE_HEIGHT_AFTER_PADDING = h
+
+        tw, th = self.DIM
+        dy = th - (uy + uh)
+
+        button_width, button_height = self.BUTTON_DIM
+
+        dy += button_height
+        dy += self.PADDING
+
+        self.okbutton = gui.elements.UIButton(
+            relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), (button_width, button_height)),
+            text="Добре",
             manager=ui_manager,
             container=self.panel,
-            object_id="#dialogue_box_desc",
+            object_id="#dialogue_box_okbutton",
+            visible=0,
             anchors={
+                'top': 'bottom',
                 'left': 'left',
-                'right': 'right',
-                'top': 'top',
-                'bottom': 'bottom'
+                'bottom': 'bottom',
+                'right': 'left'
             }
         )
 
-        #name_dialog_textentry = gui.elements.UITextEntryLine(
-        #    relative_rect=pygame.Rect((50, 373), (150, 50)), manager=gs.ui_manager, container=self.#panel, object_id="dialogue_box_textentry"
-        #)
-        #name_dialog_textentry.set_text("Име")
+        self.textentry = gui.elements.UITextEntryLine(
+            relative_rect=pygame.Rect((x, -dy), (w, button_height)),
+            manager=ui_manager,
+            container=self.panel,
+            object_id="#dialogue_box_textentry",
+            visible=0,
+            anchors={
+                'top': 'bottom',
+                'left': 'left',
+                'bottom': 'bottom',
+                'right': 'left'
+            }
+        )
+        self.textentry.set_text("Име...")
 
-        #gs.add_ui(self.panel)
-        #gs.add_ui(self.title)
-        #gs.add_ui(self.desc)
-        #gs.add_ui(name_dialog_textentry)
+        self.desc = gui.elements.UITextBox(
+            html_text="", relative_rect=pygame.Rect((x, y), (w, h)), manager=ui_manager, container=self.panel, object_id="#dialogue_box_desc"
+        )

@@ -25,7 +25,7 @@ def on_event(gs: GameState, e: Event):
             console.hide() if console.visible == 1 else console.show()
 
     # Тук вкарваме custom команди:
-    if (e.type == gui.UI_CONSOLE_COMMAND_ENTERED and e.ui_element == console):
+    if e.type == gui.UI_CONSOLE_COMMAND_ENTERED and e.ui_element == console:
         command = e.command
         if len(command) == 0:
             return

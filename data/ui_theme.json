@@ -7,10 +7,10 @@
             "selected_bg": "#4f76e0",
             "dark_bg": "#fb8691",
             "disabled_dark_bg": "#fb8691",
-            "normal_text": "#202020",
-            "hovered_text": "#303030",
-            "selected_text": "#404040",
-            "disabled_text": "#202020",
+            "normal_text": "#ffffff",
+            "hovered_text": "#101010",
+            "selected_text": "#101010",
+            "disabled_text": "#ffffff",
             "link_text": "#0000EE",
             "link_hover": "#2020FF",
             "link_selected": "#551A8B",
@@ -66,6 +66,40 @@
         "colours": {},
         "misc": {
             "border_width": "1"
+        }
+    },
+    "#dialogue_box_okbutton": {
+        "colours": {
+            "normal_bg": "#00000000",
+            "hovered_bg": "#00000000",
+            "disabled_bg": "#00000000",
+            "selected_bg": "#00000000",
+            "selected_border": "#00000000",
+            "selected_text_shadow": "#00000000",
+            "active_bg": "#00000000",
+            "hovered_text": "#ffffff",
+            "active_text": "#eeeeee"
+        },
+        "images": {
+            "normal_image": {
+                "path": "data/ui/GreenButton.png"
+            },
+            "hovered_image": {
+                "path": "data/ui/GreenButtonHovered.png"
+            },
+            "selected_image": {
+                "path": "data/ui/GreenButtonPressed.png"
+            }
+        },
+        "misc": {
+            "border_width": "0",
+            "shadow_width": "0",
+            "state_transitions": {
+                "normal_hovered": "0.5",
+                "hovered_normal": "0.5",
+                "active_hovered": "0",
+                "active_normal": "0"
+            }
         }
     }
 }
