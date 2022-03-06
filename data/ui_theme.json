@@ -1,44 +1,71 @@
 {
     "defaults": {
         "colours": {
-            "normal_bg": "#fb9e91",
-            "hovered_bg": "#fbda91",
-            "disabled_bg": "#cb6e61",
-            "selected_bg": "#fb0091",
+            "normal_bg": "#4f76e0",
+            "hovered_bg": "#6d90ed",
+            "disabled_bg": "#4f76e0",
+            "selected_bg": "#4f76e0",
             "dark_bg": "#fb8691",
-            "disabled_dark_bg": "#db6671",
+            "disabled_dark_bg": "#fb8691",
             "normal_text": "#202020",
             "hovered_text": "#303030",
             "selected_text": "#404040",
-            "disabled_text": "#000000",
+            "disabled_text": "#202020",
             "link_text": "#0000EE",
             "link_hover": "#2020FF",
             "link_selected": "#551A8B",
             "text_shadow": "#777777",
-            "normal_border": "#ffB2A5",
-            "hovered_border": "#ffC2B5",
-            "disabled_border": "#Df9285",
+            "normal_border": "#000000",
+            "hovered_border": "#ffffff",
+            "disabled_border": "#000000",
             "selected_border": "#ff00A1",
             "filled_bar": "#f4251b",
             "unfilled_bar": "#CCCCCC"
         }
     },
-    "#name_dialog": {
+    "#dialogue_box": {
         "colours": {
             "dark_bg": "#00000000",
-            "normal_border": "#00000000",
-            "hovered_border": "#00000000",
-            "disabled_border": "#00000000",
-            "selected_border": "#00000000"
+            "normal_border": "#00000000"
         },
         "misc": {
-            "border_width": "0",
             "shadow_width": "0"
         },
         "images": {
             "background_image": {
-                "path": "data/ui/DialogueBox.png"
+                "path": "data/ui/GeneralPrompt.png"
             }
+        }
+    },
+    "#dialogue_box_title": {
+        "colours": {
+            "normal_text": "#ffffff"
+        },
+        "font": {
+            "name": "Constantia",
+            "size": "20",
+            "regular_path": "data/fonts/constan.ttf"
+        }
+    },
+    "#dialogue_box_desc": {
+        "colours": {
+            "normal_border": "#00000000",
+            "dark_bg": "#00000000"
+        },
+        "misc:": {
+            "border_width": "0",
+            "shadow_width": "0"
+        }
+    },
+    "#dialogue_box_desc.vertical_scroll_bar": {
+        "colours": {
+            "dark_bg": "#122e70"
+        }
+    },
+    "#dialogue_box_desc.vertical_scroll_bar.#sliding_button": {
+        "colours": {},
+        "misc": {
+            "border_width": "1"
         }
     }
 }

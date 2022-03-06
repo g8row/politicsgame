@@ -1,6 +1,7 @@
 import pygame
 import pygame
 import pygame_gui as gui
+from dialogue_box import DialogueBox
 
 from typing import Any, Dict, Tuple
 
@@ -20,8 +21,10 @@ class GameState:
 
     ui_elements: Dict[str, gui.core.UIElement] = {}
 
+    dialogue_box: DialogueBox
+
     def add_ui(self, ui_obj: gui.core.UIElement):
-        id = ui_obj.object_ids[0]
+        id = ui_obj.object_ids[-1]
         print("Adding UI with ID:", id)
         self.ui_elements[id] = ui_obj
 

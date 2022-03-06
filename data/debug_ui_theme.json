@@ -23,7 +23,7 @@
             "unfilled_bar": "#CCCCCC"
         }
     },
-    "#console": {
+    "#debug_console": {
         "misc": {
             "enable_close_button": "0"
         }
