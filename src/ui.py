@@ -15,11 +15,10 @@ def center(container: gui.core.UIContainer, size: Tuple[int | float, int | float
 
 
 def init(gs: GameState):
-    gui.elements.UIPanel(
-        relative_rect = center(gs.ui_manager.root_container, (369, 181)),
-        starting_layer_height = 10,
-        manager = gs.ui_manager,
-        object_id = "#name_dialog"
+    gs.add_ui(
+        gui.elements.UIPanel(
+            relative_rect=center(gs.ui_manager.root_container, (369, 181)), starting_layer_height=10, manager=gs.ui_manager, object_id="#name_dialog"
+        )
     )
 
 

@@ -20,9 +20,10 @@ class GameState:
 
     ui_elements: Dict[str, gui.core.UIElement] = {}
 
-    def add_ui(self, id: str, object: gui.core.UIElement):
-        object.object_ids.append(id)
-        self.ui_elements[id] = object
+    def add_ui(self, ui_obj: gui.core.UIElement):
+        id = ui_obj.object_ids[0]
+        print("Adding UI with ID:", id)
+        self.ui_elements[id] = ui_obj
 
     def get_ui(self, id: str) -> gui.core.UIElement | None:
         return self.ui_elements.get(id, None)

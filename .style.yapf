@@ -3,5 +3,4 @@ based_on_style = facebook
 indent_width = 4
 column_limit = 150
 split_before_named_assigns = true
-spaces_around_default_or_named_assign = true
 spaces_before_comment = 5
