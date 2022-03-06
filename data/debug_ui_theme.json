@@ -1,8 +1,6 @@
 {
-    "defaults":
-    {
-        "colours":
-        {
+    "defaults": {
+        "colours": {
             "normal_bg": "#fb9e91",
             "hovered_bg": "#fbda91",
             "disabled_bg": "#cb6e61",
@@ -25,10 +23,8 @@
             "unfilled_bar": "#CCCCCC"
         }
     },
-    "#console":
-    {
-        "misc":
-        {
+    "#console": {
+        "misc": {
             "enable_close_button": "0"
         }
     }

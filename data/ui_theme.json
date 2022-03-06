@@ -1,12 +1,44 @@
 {
-    "button":
-    {
-        "misc":
-        {
-            "shape": "rounded_rectangle",
-            "shape_corner_radius": "10",
-            "border_width": "1",
-            "shadow_width": "2"
+    "defaults": {
+        "colours": {
+            "normal_bg": "#fb9e91",
+            "hovered_bg": "#fbda91",
+            "disabled_bg": "#cb6e61",
+            "selected_bg": "#fb0091",
+            "dark_bg": "#fb8691",
+            "disabled_dark_bg": "#db6671",
+            "normal_text": "#202020",
+            "hovered_text": "#303030",
+            "selected_text": "#404040",
+            "disabled_text": "#000000",
+            "link_text": "#0000EE",
+            "link_hover": "#2020FF",
+            "link_selected": "#551A8B",
+            "text_shadow": "#777777",
+            "normal_border": "#ffB2A5",
+            "hovered_border": "#ffC2B5",
+            "disabled_border": "#Df9285",
+            "selected_border": "#ff00A1",
+            "filled_bar": "#f4251b",
+            "unfilled_bar": "#CCCCCC"
+        }
+    },
+    "#name_dialog": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000",
+            "hovered_border": "#00000000",
+            "disabled_border": "#00000000",
+            "selected_border": "#00000000"
+        },
+        "misc": {
+            "border_width": "0",
+            "shadow_width": "0"
+        },
+        "images": {
+            "background_image": {
+                "path": "data/ui/DialogueBox.png"
+            }
         }
     }
 }
