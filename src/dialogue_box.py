@@ -123,6 +123,17 @@ class DialogueBox:
         if e.type == gui.UI_BUTTON_PRESSED:
             if e.ui_element == self.okbutton:
                 self.hide()
+                       
+        if e.type == pygame.MOUSEBUTTONDOWN and e.button == pygame.BUTTON_LEFT:
+            mx, my = pygame.mouse.get_pos()
+            if self.desc.rect.collidepoint((mx, my)):
+                if self.desc.active_text_effect is not None:
+                    self.desc.active_text_effect.time_per_letter = 0.00001
+
+            if self.textentry.rect.collidepoint((mx, my)):
+                if self.textentry.text is not None and self.textentry.text == "Име...":
+                    self.textentry.set_text("")
+
 
     def __init__(self, ui_manager: gui.UIManager):
         self.panel = gui.elements.UIPanel(

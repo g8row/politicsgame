@@ -13,23 +13,16 @@ def init(gs: GameState):
     gs.dialogue_box = DialogueBox(gs.ui_manager)
     gs.dialogue_box.prompt(
         type=DialogueBoxType.JUST_OK,
-        title="Опа, здравей",
+        title="Здравей",
         desc_html=
         "<font face='Pala', color='#000000', size=4>Добре дошъл.<br><br>Ти си министър-председателят на <b>Република България</b>.<br>От твоя кабинет ще се взимат най-важните решения, от които ще зависи бъдещето на страната.<br><br>Но първо... представи се!</font>"
     )
 
-    gs.dialogue_box.prompt(type=DialogueBoxType.ASK_FOR_IDENTITY, title="Ти си, шефе", desc_html="")
+    gs.dialogue_box.prompt(type=DialogueBoxType.ASK_FOR_IDENTITY, title="Ти си...", desc_html="")
 
 
 def on_event(gs: GameState, e: Event):
     gs.dialogue_box.on_event(e)
-
-    if e.type == pygame.MOUSEBUTTONDOWN and e.button == pygame.BUTTON_LEFT:
-        mx, my = pygame.mouse.get_pos()
-        desc = gs.dialogue_box.desc
-        if desc.rect.collidepoint((mx, my)):
-            if desc.active_text_effect is not None:
-                desc.active_text_effect.time_per_letter = 0.00001
 
 
 def frame(gs: GameState):
