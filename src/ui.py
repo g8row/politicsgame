@@ -13,7 +13,6 @@ def init():
     # Тук слагаме неща при зареждане, така че да не забива по-късно,
     # когато за пръв път се използва. За font-ове pygame_gui предупреждава
     # и принтира в конзолата точно какво да се сложи тук.
-
     UI.manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
     UI.manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
 
@@ -24,7 +23,8 @@ def init():
             "<font face='Pala', color='#000000', size=4>Добре дошъл.<br><br>Ти си министър-председателят на <b>Република България</b>.<br>От твоя кабинет ще се взимат най-важните решения, от които ще зависи бъдещето на страната.<br><br>Но първо... представи се!</font>"
         )
     )
-
+    # Веднага едно след друго питай за име и т.н.,
+    # нещата се queue-ват, второто се показва след като цъкне "Добре" на първото.
     UI.prompt(PromptAskForIdentity())
 
 
