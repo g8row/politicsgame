@@ -10,7 +10,7 @@ from typing import Any
 # Неща за pygame_gui, set-ват се от main.py, нужни са,
 # когато се прави нов UI element (параметъра manager),
 # виж пример в prompt-овете.
-manager: gui.UIManager
+#manager: gui.UIManager
 debug_manager: gui.UIManager
 
 # Eлементи и променливи, които могат да се пипат от конзолата,

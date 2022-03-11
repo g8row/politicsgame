@@ -1,5 +1,6 @@
 import math
 
+import state.game_state as GS
 import state.ui_state as UI
 
 from pygame.event import Event
@@ -37,22 +38,26 @@ class GeneralPrompt:
     # Самото геройче дето излиза в началото на играта, когато те пита за името
     CHARACTER_DIM = (80, 110)
 
+    manager: gui.UIManager
+
     panel: gui.elements.UIPanel
     title: gui.elements.UILabel
 
     # Неща за анимация...
     target_alpha_t: float = 0
     alpha_t: float = 0
-    alpha: float
+    alpha: int = 255
     animation_duration: float = 1
 
     show_animation_complete: bool = False
 
     def __init__(self):
+        self.manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
+
         self.panel = gui.elements.UIPanel(
-            relative_rect=center(UI.manager.root_container, self.DIM),
+            relative_rect=center(self.manager.root_container, self.DIM),
             starting_layer_height=10,
-            manager=UI.manager,
+            manager=self.manager,
             object_id="#dialogue_box",
             visible=0
         )
@@ -60,7 +65,7 @@ class GeneralPrompt:
         self.title = gui.elements.UILabel(
             relative_rect=pygame.Rect((0, 0), (-1, -1)),
             text="Ти си...",
-            manager=UI.manager,
+            manager=self.manager,
             container=self.panel,
             object_id="#dialogue_box_title",
             visible=0
@@ -117,10 +122,21 @@ class GeneralPrompt:
                     self.alpha_t -= 1 / self.animation_duration * (1 / 60)
 
             self.alpha = int(slerp(0.0, 1.0, self.alpha_t) * 255.0)
-            print(self.alpha)
+            # print(self.alpha)
+
+        self.manager.update(1.0 / 60)
+
+        target = pygame.Surface(GS.win_size, pygame.SRCALPHA)
+        self.manager.draw_ui(target)
+
+        temp = pygame.Surface(GS.win_size).convert()
+        temp.blit(GS.win, (0, 0))
+        temp.blit(target, (0, 0))
+        temp.set_alpha(self.alpha)
+        GS.win.blit(temp, (0, 0))
 
     def on_event(self, e: Event):
-        pass
+        self.manager.process_events(e)
 
 
 def center(container: gui.core.UIContainer, size: tuple[int | float, int | float]):

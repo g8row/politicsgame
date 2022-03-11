@@ -53,7 +53,7 @@ class PromptJustOk(GeneralPrompt):
         self.desc = gui.elements.UITextBox(
             html_text="",
             relative_rect=pygame.Rect((x, y), (w, h - button_height - self.PADDING)),
-            manager=UI.manager,
+            manager=self.manager,
             container=self.panel,
             object_id="#dialogue_box_desc",
             visible=0
@@ -65,7 +65,7 @@ class PromptJustOk(GeneralPrompt):
         self.ok_button = gui.elements.UIButton(
             relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), self.BUTTON_DIM),
             text="Добре",
-            manager=UI.manager,
+            manager=self.manager,
             container=self.panel,
             object_id="#dialogue_box_ok_button",
             visible=0,
@@ -78,6 +78,8 @@ class PromptJustOk(GeneralPrompt):
         )
 
     def on_event(self, e: Event):
+        super().on_event(e)
+
         # Играча цъка бутона...
         if e.type == gui.UI_BUTTON_PRESSED:
             if e.ui_element == self.ok_button:

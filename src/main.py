@@ -19,13 +19,11 @@ GS.win = win     # пример..., някои функции искат да и
 GS.world_render_target = pygame.Surface((400, 300))
 
 UI.debug_manager = gui.UIManager(GS.win_size, "data/debug_ui_theme.json")
-UI.manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
+# UI.manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
 
 target_fps = 60
 # Колко наносекунди трябва да продължава всеки фрейм (логика + рисуване), за да hit-нем target FPS-а
 frame_time_ns = 1.0 / target_fps * 10**9
-
-a = UI.manager.root_container
 
 room.init()
 room.draw()
@@ -42,16 +40,16 @@ while True:
         UI.debug_manager.process_events(e)
 
         ui.on_event(e)
-        UI.manager.process_events(e)
+        #UI.manager.process_events(e)
 
     # Тук се случва цялата логика за всеки фрейм
+    GS.win.blit(pygame.transform.scale(GS.world_render_target, (800, 600)), (0, 0))
+
     ui.frame()
     debug_ui.frame()
 
-    GS.win.blit(pygame.transform.scale(GS.world_render_target, (800, 600)), (0, 0))
-
-    UI.manager.update(1 / target_fps)
-    UI.manager.draw_ui(GS.win)
+    #UI.manager.update(1 / target_fps)
+    #UI.manager.draw_ui(GS.win)
 
     UI.debug_manager.update(1 / target_fps)
     UI.debug_manager.draw_ui(GS.win)
