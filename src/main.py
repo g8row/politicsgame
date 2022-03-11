@@ -2,7 +2,8 @@ import pygame_gui as gui
 import room
 import ui
 import debug_ui
-import state
+import state.game_state as GS
+import state.ui_state as UI
 import sys
 import time
 
@@ -10,49 +11,50 @@ import pygame
 
 pygame.init()
 
-win = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)     # Прозорец
+win = pygame.display.set_mode(GS.win_size, pygame.DOUBLEBUF)     # Прозорец
 pygame.display.set_caption("res publica")     # Заглавие
 
 # Game state, всички могат да слагат (и махат) неща в тази променилива
-gs = state.GameState()
-gs.win = win     # пример..., някои функции искат да имат прозореца
+GS.win = win     # пример..., някои функции искат да имат прозореца
+GS.world_render_target = pygame.Surface((400, 300))
 
-gs.world_render_target = pygame.Surface((400, 300))
-gs.debug_ui_manager = gui.UIManager((800, 600), "data/debug_ui_theme.json")
-gs.ui_manager = gui.UIManager((800, 600), "data/ui_theme.json")
+UI.debug_manager = gui.UIManager(GS.win_size, "data/debug_ui_theme.json")
+UI.manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
 
 target_fps = 60
 # Колко наносекунди трябва да продължава всеки фрейм (логика + рисуване), за да hit-нем target FPS-а
 frame_time_ns = 1.0 / target_fps * 10**9
 
-room.init(gs)
-room.draw(gs)
+a = UI.manager.root_container
 
-debug_ui.init(gs)
-ui.init(gs)
+room.init()
+room.draw()
+
+debug_ui.init()
+ui.init()
 
 prev_time = time.time_ns()
 while True:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             sys.exit()
-        debug_ui.on_event(gs, e)
-        gs.debug_ui_manager.process_events(e)
+        debug_ui.on_event(e)
+        UI.debug_manager.process_events(e)
 
-        ui.on_event(gs, e)
-        gs.ui_manager.process_events(e)
+        ui.on_event(e)
+        UI.manager.process_events(e)
 
     # Тук се случва цялата логика за всеки фрейм
-    ui.frame(gs)
-    debug_ui.frame(gs)
+    ui.frame()
+    debug_ui.frame()
 
-    gs.win.blit(pygame.transform.scale(gs.world_render_target, (800, 600)), (0, 0))
+    GS.win.blit(pygame.transform.scale(GS.world_render_target, (800, 600)), (0, 0))
 
-    gs.ui_manager.update(1 / target_fps)
-    gs.ui_manager.draw_ui(gs.win)
+    UI.manager.update(1 / target_fps)
+    UI.manager.draw_ui(GS.win)
 
-    gs.debug_ui_manager.update(1 / target_fps)
-    gs.debug_ui_manager.draw_ui(gs.win)
+    UI.debug_manager.update(1 / target_fps)
+    UI.debug_manager.draw_ui(GS.win)
 
     # Локва играта да рънва на 60 FPS вместо да точи процесора:
     curr_time = time.time_ns()

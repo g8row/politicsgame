@@ -1,29 +1,40 @@
+import state.game_state as GS
+import state.ui_state as UI
+
 from pygame.event import Event
-from state import GameState
 import pygame
 import pygame_gui as gui
 
-from dialogue_box import DialogueBox, DialogueBoxType
+from prompts.prompt_just_ok import PromptJustOk
+from prompts.prompt_ask_for_identity import PromptAskForIdentity
 
 
-def init(gs: GameState):
-    gs.ui_manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
-    gs.ui_manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
+def init():
+    # Тук слагаме неща при зареждане, така че да не забива по-късно,
+    # когато за пръв път се използва. За font-ове pygame_gui предупреждава
+    # и принтира в конзолата точно какво да се сложи тук.
 
-    gs.dialogue_box = DialogueBox(gs.ui_manager)
-    gs.dialogue_box.prompt(
-        type=DialogueBoxType.JUST_OK,
-        title="Здравей",
-        desc_html=
-        "<font face='Pala', color='#000000', size=4>Добре дошъл.<br><br>Ти си министър-председателят на <b>Република България</b>.<br>От твоя кабинет ще се взимат най-важните решения, от които ще зависи бъдещето на страната.<br><br>Но първо... представи се!</font>"
+    UI.manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
+    UI.manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
+
+    UI.prompt(
+        PromptJustOk(
+            title="Здравей",
+            desc_html=
+            "<font face='Pala', color='#000000', size=4>Добре дошъл.<br><br>Ти си министър-председателят на <b>Република България</b>.<br>От твоя кабинет ще се взимат най-важните решения, от които ще зависи бъдещето на страната.<br><br>Но първо... представи се!</font>"
+        )
     )
 
-    gs.dialogue_box.prompt(type=DialogueBoxType.ASK_FOR_IDENTITY, title="Ти си...", desc_html="")
+    UI.prompt(PromptAskForIdentity())
 
 
-def on_event(gs: GameState, e: Event):
-    gs.dialogue_box.on_event(e)
+def on_event(e: Event):
+    if UI.active_prompt is not None:
+        UI.active_prompt.on_event(e)
 
 
-def frame(gs: GameState):
-    gs.dialogue_box.frame()
+def frame():
+    if UI.active_prompt is not None:
+        UI.active_prompt.frame()
+    if UI.prompt_in_hide is not None:
+        UI.prompt_in_hide.frame()
