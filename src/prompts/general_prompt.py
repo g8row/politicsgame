@@ -47,12 +47,15 @@ class GeneralPrompt:
     target_alpha_t: float = 0
     alpha_t: float = 0
     alpha: int = 255
-    animation_duration: float = 1
+    animation_duration: float = 0.3
 
     show_animation_complete: bool = False
 
     def __init__(self):
         self.manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
+        
+        self.ui_render_target = pygame.Surface(GS.win_size, pygame.SRCALPHA)
+        self.ui_render_target_alpha = pygame.Surface(GS.win_size).convert()
 
         self.panel = gui.elements.UIPanel(
             relative_rect=center(self.manager.root_container, self.DIM),
@@ -108,7 +111,7 @@ class GeneralPrompt:
 
     def frame(self):
         if self.target_alpha_t != self.alpha_t:
-            if abs(self.target_alpha_t - self.alpha_t) < 0.1:
+            if abs(self.target_alpha_t - self.alpha_t) < 0.01:
                 self.alpha_t = self.target_alpha_t
                 if self.target_alpha_t == 1.0:
                     self.panel.enable()
@@ -122,18 +125,16 @@ class GeneralPrompt:
                     self.alpha_t -= 1 / self.animation_duration * (1 / 60)
 
             self.alpha = int(slerp(0.0, 1.0, self.alpha_t) * 255.0)
-            # print(self.alpha)
 
-        self.manager.update(1.0 / 60)
+        self.manager.update(GS.dt)
 
-        target = pygame.Surface(GS.win_size, pygame.SRCALPHA)
-        self.manager.draw_ui(target)
+        self.ui_render_target.fill((0, 0, 0, 0))
+        self.manager.draw_ui(self.ui_render_target)
 
-        temp = pygame.Surface(GS.win_size).convert()
-        temp.blit(GS.win, (0, 0))
-        temp.blit(target, (0, 0))
-        temp.set_alpha(self.alpha)
-        GS.win.blit(temp, (0, 0))
+        self.ui_render_target_alpha.blit(GS.win, (0, 0))
+        self.ui_render_target_alpha.blit(self.ui_render_target, (0, 0))
+        self.ui_render_target_alpha.set_alpha(self.alpha)
+        GS.win.blit(self.ui_render_target_alpha, (0, 0))
 
     def on_event(self, e: Event):
         self.manager.process_events(e)

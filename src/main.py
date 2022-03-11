@@ -22,8 +22,12 @@ UI.debug_manager = gui.UIManager(GS.win_size, "data/debug_ui_theme.json")
 # UI.manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
 
 target_fps = 60
+
+# Колко секунди трябва да продължава всеки фрейм (логика + рисуване), за да hit-нем target FPS-а
+GS.dt = 1 / target_fps
+
 # Колко наносекунди трябва да продължава всеки фрейм (логика + рисуване), за да hit-нем target FPS-а
-frame_time_ns = 1.0 / target_fps * 10**9
+frame_time_ns = GS.dt * 10**9
 
 room.init()
 room.draw()
@@ -51,7 +55,7 @@ while True:
     #UI.manager.update(1 / target_fps)
     #UI.manager.draw_ui(GS.win)
 
-    UI.debug_manager.update(1 / target_fps)
+    UI.debug_manager.update(GS.dt)
     UI.debug_manager.draw_ui(GS.win)
 
     # Локва играта да рънва на 60 FPS вместо да точи процесора:
