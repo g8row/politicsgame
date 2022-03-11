@@ -98,7 +98,8 @@ def set_prompt_in_hide(p):
 #
 # За да не хабим време да създаваме всеки път нови и да фрагментираме паметта
 # правим object pool. Когато зарежда играта правим 5 default, ако потрябват още
-# по време на run-а се добавят, иначе се рециклират между prompt-ове (виж destructor-а).
+# по време на run-а се добавят, иначе се рециклират между prompt-ове
+# (виж destructor-а на GeneralPrompt например).
 #
 
 ui_managers: list[gui.UIManager] = []
@@ -144,9 +145,9 @@ def pool_return_ui_manager(manager: gui.UIManager):
     ui_managers.append(manager)
 
 
-def pool_return_window_surface(surface: pygame.Surface):
+def pool_return_window_surface(surface: pygame.surface.Surface):
     window_surfaces.append(surface)
 
 
-def pool_return_alpha_window_surface(surface: pygame.Surface):
+def pool_return_alpha_window_surface(surface: pygame.surface.Surface):
     alpha_window_surfaces.append(surface)

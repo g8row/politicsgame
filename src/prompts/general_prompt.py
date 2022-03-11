@@ -49,8 +49,8 @@ class GeneralPrompt:
     alpha: int = 255
     animation_duration: float = 0.3
 
-    anim_render_target: pygame.Surface
-    anim_render_target_alpha: pygame.Surface
+    anim_render_target: pygame.surface.Surface
+    anim_render_target_alpha: pygame.surface.Surface
 
     anim_width: int
     anim_height: int
