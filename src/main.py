@@ -1,3 +1,4 @@
+from collections import deque
 import pygame_gui as gui
 import room
 import ui
@@ -35,6 +36,8 @@ room.draw()
 debug_ui.init()
 ui.init()
 
+frame_time_stack = deque([])
+
 prev_time = time.time_ns()
 while True:
     for e in pygame.event.get():
@@ -62,6 +65,11 @@ while True:
     curr_time = time.time_ns()
     diff = curr_time - prev_time
     prev_time = curr_time
+
+    frame_time_stack.append(diff / 10**9)
+    if len(frame_time_stack) > 2000:
+        frame_time_stack.popleft()
+    pygame.display.set_caption("res publica | {:.2f} FPS".format(1 / (sum(frame_time_stack) / len(frame_time_stack))))
 
     pygame.display.update()
 

@@ -137,18 +137,18 @@ class GeneralPrompt:
             self.anim_width = int(slerp(0.8 * w, w, self.alpha_t))
             self.anim_height = int(slerp(0.8 * h, h, self.alpha_t))
 
-            self.ui_render_target.fill((0, 0, 0, 0))
-            self.manager.draw_ui(self.ui_render_target)
+        self.ui_render_target.fill((0, 0, 0, 0))
+        self.manager.draw_ui(self.ui_render_target)
 
-            self.ui_render_target_alpha.blit(GS.win, (0, 0))
-            self.ui_render_target_alpha.blit(self.ui_render_target, (0, 0))
-            self.ui_render_target_alpha.set_alpha(self.alpha)
+        self.ui_render_target_alpha.blit(GS.win, (0, 0))
+        self.ui_render_target_alpha.blit(self.ui_render_target, (0, 0))
+        self.ui_render_target_alpha.set_alpha(self.alpha)
 
-            w, h = GS.win_size
-            scaled = pygame.transform.scale(self.ui_render_target_alpha, (self.anim_width, self.anim_height))
-            GS.win.blit(scaled, ((w - self.anim_width) // 2, (h - self.anim_height) // 2))
-        else:
-            self.manager.draw_ui(GS.win)
+        w, h = GS.win_size
+        scaled = pygame.transform.scale(self.ui_render_target_alpha, (self.anim_width, self.anim_height))
+        GS.win.blit(scaled, ((w - self.anim_width) // 2, (h - self.anim_height) // 2))
+        #else:
+        #    self.manager.draw_ui(GS.win)
 
     def on_event(self, e: Event):
         self.manager.process_events(e)
