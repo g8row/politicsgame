@@ -1,4 +1,8 @@
+import state.game_state as GS
+
+import pygame
 import pygame_gui as gui
+
 from debug.debug_console import DebugConsole
 
 from typing import Any
@@ -70,8 +74,11 @@ def prompt_hide():
 
 
 def prompt_done_hiding(p):
+    global prompt_in_hide
+
     if prompt_in_hide == p:
         p.hide(animation=False)
+        prompt_in_hide = None
 
 
 def set_prompt_in_hide(p):
@@ -82,3 +89,64 @@ def set_prompt_in_hide(p):
         p.hide(animation=False)
 
     prompt_in_hide = p
+
+
+#
+# За анимациите трябва да правим гадории като:
+#   * няколко UI мениджъра
+#   * по два pygame.Surface-и за всеки prompt
+#
+# За да не хабим време да създаваме всеки път нови и да фрагментираме паметта
+# правим object pool. Когато зарежда играта правим 5 default, ако потрябват още
+# по време на run-а се добавят, иначе се рециклират между prompt-ове (виж destructor-а).
+#
+
+ui_managers: list[gui.UIManager] = []
+alpha_window_surfaces: list[pygame.surface.Surface] = []
+window_surfaces: list[pygame.surface.Surface] = []
+
+
+def _new_ui_manager() -> gui.UIManager:
+    return gui.UIManager(GS.win_size, "data/ui_theme.json")
+
+
+def init_object_pools():
+    initial_amount = 5
+
+    for _ in range(initial_amount):
+        ui_managers.append(_new_ui_manager())
+        alpha_window_surfaces.append(pygame.Surface(GS.win_size, pygame.SRCALPHA))
+        window_surfaces.append(pygame.Surface(GS.win_size).convert())
+
+
+def pool_get_ui_manager() -> gui.UIManager:
+    if len(ui_managers) > 0:
+        return ui_managers.pop(0)
+    else:
+        return _new_ui_manager()
+
+
+def pool_get_window_surface() -> pygame.surface.Surface:
+    if len(window_surfaces) > 0:
+        return window_surfaces.pop(0)
+    else:
+        return pygame.Surface(GS.win_size).convert()
+
+
+def pool_get_alpha_window_surface() -> pygame.surface.Surface:
+    if len(alpha_window_surfaces) > 0:
+        return alpha_window_surfaces.pop(0)
+    else:
+        return pygame.Surface(GS.win_size, pygame.SRCALPHA)
+
+
+def pool_return_ui_manager(manager: gui.UIManager):
+    ui_managers.append(manager)
+
+
+def pool_return_window_surface(surface: pygame.Surface):
+    window_surfaces.append(surface)
+
+
+def pool_return_alpha_window_surface(surface: pygame.Surface):
+    alpha_window_surfaces.append(surface)

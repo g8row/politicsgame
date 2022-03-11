@@ -49,18 +49,18 @@ class GeneralPrompt:
     alpha: int = 255
     animation_duration: float = 0.3
 
+    anim_render_target: pygame.Surface
+    anim_render_target_alpha: pygame.Surface
+
     anim_width: int
     anim_height: int
 
-    show_animation_complete: bool = False
-
     def __init__(self):
-        self.manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
-
         self.anim_width, self.anim_height = GS.win_size
 
-        self.ui_render_target = pygame.Surface(GS.win_size, pygame.SRCALPHA)
-        self.ui_render_target_alpha = pygame.Surface(GS.win_size).convert()
+        self.manager = UI.pool_get_ui_manager()
+        self.anim_render_target = UI.pool_get_window_surface()
+        self.anim_render_target_alpha = UI.pool_get_alpha_window_surface()
 
         self.panel = gui.elements.UIPanel(
             relative_rect=center(self.manager.root_container, self.DIM),
@@ -78,6 +78,12 @@ class GeneralPrompt:
             object_id="#dialogue_box_title",
             visible=0
         )
+
+    def __del__(self):
+        self.panel.kill()     # Също убива и децата му на панела
+        UI.pool_return_ui_manager(self.manager)
+        UI.pool_return_window_surface(self.anim_render_target)
+        UI.pool_return_alpha_window_surface(self.anim_render_target_alpha)
 
     def set_title(self, title: str):
         self.title.set_text(title)
@@ -107,7 +113,6 @@ class GeneralPrompt:
     def hide(self, animation: bool):
         if animation:
             self.panel.disable()
-            self.show_animation_complete = False
             self.target_alpha_t = 0.0
             UI.set_prompt_in_hide(self)
         else:
@@ -118,11 +123,10 @@ class GeneralPrompt:
         self.manager.update(GS.dt)
 
         if self.target_alpha_t != self.alpha_t:
-            if abs(self.target_alpha_t - self.alpha_t) < 0.01:
+            if abs(self.target_alpha_t - self.alpha_t) < 0.001:
                 self.alpha_t = self.target_alpha_t
                 if self.target_alpha_t == 1.0:
                     self.panel.enable()
-                    self.show_animation_complete = True
                 if self.target_alpha_t == 0.0:
                     UI.prompt_done_hiding(self)
             else:
@@ -137,18 +141,20 @@ class GeneralPrompt:
             self.anim_width = int(slerp(0.8 * w, w, self.alpha_t))
             self.anim_height = int(slerp(0.8 * h, h, self.alpha_t))
 
-        self.ui_render_target.fill((0, 0, 0, 0))
-        self.manager.draw_ui(self.ui_render_target)
+            # Цялата тази простотия ни струва 10 FPS, но май няма по-бърз начин
+            # защото работим с прозрачни изображения и библиотеката няма по-хубав API и това е тъжно.
+            self.anim_render_target_alpha.fill((0, 0, 0, 0))
+            self.manager.draw_ui(self.anim_render_target_alpha)
 
-        self.ui_render_target_alpha.blit(GS.win, (0, 0))
-        self.ui_render_target_alpha.blit(self.ui_render_target, (0, 0))
-        self.ui_render_target_alpha.set_alpha(self.alpha)
+            #self.ui_render_target_alpha.fill("0xfff6d9")
+            self.anim_render_target.blit(GS.win, (0, 0))
+            self.anim_render_target.blit(self.anim_render_target_alpha, (0, 0))
+            self.anim_render_target.set_alpha(self.alpha)
 
-        w, h = GS.win_size
-        scaled = pygame.transform.scale(self.ui_render_target_alpha, (self.anim_width, self.anim_height))
-        GS.win.blit(scaled, ((w - self.anim_width) // 2, (h - self.anim_height) // 2))
-        #else:
-        #    self.manager.draw_ui(GS.win)
+            scaled = pygame.transform.scale(self.anim_render_target, (self.anim_width, self.anim_height))
+            GS.win.blit(scaled, ((w - self.anim_width) // 2, (h - self.anim_height) // 2))
+        else:
+            self.manager.draw_ui(GS.win)
 
     def on_event(self, e: Event):
         self.manager.process_events(e)

@@ -95,16 +95,15 @@ class PromptJustOk(GeneralPrompt):
     def frame(self):
         super().frame()
 
-        if self.show_animation_complete:
-            # Това е хак, защото pygame_gui има лек бъг с text typing ефекта..
-            # Държим текста невидим за 5 фрейма докато не почне да пише първата буква,
-            # иначе има лек период, в който е видимо цялото описание.
-            if self.desc_to_show_next_frames == 1:
-                self.desc.set_text(self.desc_text_to_show)
-                self.desc.set_active_effect(gui.TEXT_EFFECT_TYPING_APPEAR, params={"time_per_letter": 0.05})
-                self.desc.hide()
-            if self.desc_to_show_next_frames == 5:
-                self.desc.show()
-                self.desc_to_show_next_frames = 0
-            if self.desc_to_show_next_frames != 0:
-                self.desc_to_show_next_frames += 1
+        # Това е хак, защото pygame_gui има лек бъг с text typing ефекта..
+        # Държим текста невидим за 5 фрейма докато не почне да пише първата буква,
+        # иначе има лек период, в който е видимо цялото описание.
+        if self.desc_to_show_next_frames == 1:
+            self.desc.set_text(self.desc_text_to_show)
+            self.desc.set_active_effect(gui.TEXT_EFFECT_TYPING_APPEAR, params={"time_per_letter": 0.05})
+            self.desc.hide()
+        if self.desc_to_show_next_frames == 5:
+            self.desc.show()
+            self.desc_to_show_next_frames = 0
+        if self.desc_to_show_next_frames != 0:
+            self.desc_to_show_next_frames += 1
