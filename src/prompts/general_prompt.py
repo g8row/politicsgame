@@ -173,13 +173,3 @@ def slerp(x: float, x1: float, t: float) -> float:
     newX = x * math.sin((1.0 - t) * rad) / math.sin(rad)
     newX += x1 * math.sin(t * rad) / math.sin(rad)
     return newX
-
-
-def get_alpha_image(original_image: pygame.Surface, alpha: int):
-    image = original_image.copy()
-    tmp = pygame.Surface(image.get_rect().size)
-    tmp.blit(image.convert(), (0, 0))
-    tmp.set_alpha(alpha)
-    tmp.set_colorkey((0, 0, 0))
-    image.blit(tmp, (0, 0))
-    return image
