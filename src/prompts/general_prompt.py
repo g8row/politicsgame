@@ -168,12 +168,8 @@ def center(container: gui.core.UIContainer, size: tuple[int | float, int | float
     return pygame.Rect((x, y), (w, h))
 
 
-def cubic_bezier(t: float, p0: float, p1: float, p2: float, p3: float) -> float:
-    return (1.0 - t)**3 * p0 + 3 * (1.0 - t)**2 * t * p1 + 3 * (1.0 - t) * t**2 * p2 + t**3 * p3
-
-
 def slerp(x: float, x1: float, t: float) -> float:
-    rad = math.pi / 3     # math.acos(x * x1)     # + y*y1 )
+    rad = math.pi / 4     # math.acos(x * x1)     # + y*y1 )
     newX = x * math.sin((1.0 - t) * rad) / math.sin(rad)
     newX += x1 * math.sin(t * rad) / math.sin(rad)
     return newX
