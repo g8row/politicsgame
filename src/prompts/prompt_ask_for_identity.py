@@ -45,7 +45,7 @@ class PromptAskForIdentity(GeneralPrompt):
             relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), self.BUTTON_DIM),
             text="Добре",
             manager=self.manager,
-            container=self.panel,
+            container=self.container,
             object_id="#dialogue_box_ok_button",
             visible=0,
             anchors={
@@ -59,7 +59,7 @@ class PromptAskForIdentity(GeneralPrompt):
         self.name_entry = gui.elements.UITextEntryLine(
             relative_rect=pygame.Rect((x, y), (w, button_height)),
             manager=self.manager,
-            container=self.panel,
+            container=self.container,
             object_id="#dialogue_box_textentry",
             visible=0
         )
@@ -72,7 +72,7 @@ class PromptAskForIdentity(GeneralPrompt):
             options_list=["Жена", "Небинарен", "Мъж"],
             starting_option="Жена",
             manager=self.manager,
-            container=self.panel,
+            container=self.container,
             object_id="#dialogue_box_genderlist",
             visible=0,
             anchors={
@@ -90,7 +90,7 @@ class PromptAskForIdentity(GeneralPrompt):
             relative_rect=pygame.Rect((x + (w - character_width) / 2, self.ELEMENT_PADDING + 35), self.CHARACTER_DIM),
             image_surface=pygame.transform.scale(pygame.image.load("data/character.png"), self.CHARACTER_DIM),
             manager=self.manager,
-            container=self.panel,
+            container=self.container,
             object_id="#dialogue_box_character",
             visible=0,
             anchors={

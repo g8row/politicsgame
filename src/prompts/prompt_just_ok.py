@@ -54,7 +54,7 @@ class PromptJustOk(GeneralPrompt):
             html_text="",
             relative_rect=pygame.Rect((x, y), (w, h - button_height - self.PADDING)),
             manager=self.manager,
-            container=self.panel,
+            container=self.container,
             object_id="#dialogue_box_desc",
             visible=0
         )
@@ -66,7 +66,7 @@ class PromptJustOk(GeneralPrompt):
             relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), self.BUTTON_DIM),
             text="Добре",
             manager=self.manager,
-            container=self.panel,
+            container=self.container,
             object_id="#dialogue_box_ok_button",
             visible=0,
             anchors={
