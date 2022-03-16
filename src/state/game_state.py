@@ -1,3 +1,4 @@
+from typing import Dict
 import pygame
 import pygame
 import pygame_gui as gui
@@ -26,3 +27,8 @@ time_speed_default = 2     # Мери се в четвърт-дни за сек�
 time_speed = time_speed_default     # Слага се на 0 (паузира), когато има меню отворено
 
 time_print_frame = -1
+
+# Чете се от script.py, първо е деня, после dict с настройки и flag "done", ако вече е показан prompt-а
+script = {}
+
+script_parsed = {}

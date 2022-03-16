@@ -67,6 +67,11 @@ while True:
     if GS.time_print_frame % 60 == 0:
         print(f"Ден в игра: {int(GS.time_in_game / 4)}")
 
+    current_day = int(GS.time_in_game / 4)
+    if current_day in GS.script:
+        print(f"ОП СЦЕНА: {GS.script[current_day]}")
+        GS.script.pop(current_day)
+        
     # Локва играта да рънва на 60 FPS вместо да точи процесора:
     curr_time = time.time_ns()
     diff = curr_time - prev_time
