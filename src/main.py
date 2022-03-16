@@ -5,6 +5,7 @@ import ui
 import debug_ui
 import state.game_state as GS
 import state.ui_state as UI
+import script
 import sys
 import time
 
@@ -36,6 +37,8 @@ room.draw()
 debug_ui.init()
 ui.init()
 
+script.parse()
+
 frame_time_stack = deque([])
 
 prev_time = time.time_ns()
@@ -56,6 +59,13 @@ while True:
 
     UI.debug_manager.update(GS.dt)
     UI.debug_manager.draw_ui(GS.win)
+
+    seconds_passed = GS.time_speed * GS.dt
+    GS.time_in_game += seconds_passed
+
+    GS.time_print_frame += 1
+    if GS.time_print_frame % 60 == 0:
+        print(f"Ден в игра: {int(GS.time_in_game / 4)}")
 
     # Локва играта да рънва на 60 FPS вместо да точи процесора:
     curr_time = time.time_ns()

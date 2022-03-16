@@ -13,8 +13,6 @@ def init():
     # Тук слагаме неща при зареждане, така че да не забива по-късно,
     # когато за пръв път се използва. За font-ове pygame_gui предупреждава
     # и принтира в конзолата точно какво да се сложи тук.
-    #UI.manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
-    #UI.manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
 
     UI.prompt(
         PromptJustOk(

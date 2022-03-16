@@ -19,3 +19,10 @@ images: dict[str, pygame.surface.Surface] = {}
 # Колко секунди имаме на frame (0.016 за 60 fps),
 # използва се за сметки, които включват време (анимации, физика и т.н.)
 dt: float
+
+time_in_game = 0     # Измерва се в четвърт-дни, за да вземеш деня раздели на 4
+
+time_speed_default = 2     # Мери се в четвърт-дни за секунда
+time_speed = time_speed_default     # Слага се на 0 (паузира), когато има меню отворено
+
+time_print_frame = -1

@@ -56,6 +56,7 @@ def prompt(p):
     else:
         active_prompt = p
         p.show(animation=True)
+        GS.time_speed = 0
 
 
 def prompt_hide():
@@ -71,6 +72,7 @@ def prompt_hide():
         else:
             active_prompt.hide(animation=True)
             active_prompt = None
+            GS.time_speed = GS.time_speed_default
 
 
 def prompt_done_hiding(p):
@@ -108,7 +110,10 @@ window_surfaces: list[pygame.surface.Surface] = []
 
 
 def _new_ui_manager() -> gui.UIManager:
-    return gui.UIManager(GS.win_size, "data/ui_theme.json")
+    manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
+    manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
+    manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
+    return manager
 
 
 def init_object_pools():
