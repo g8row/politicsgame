@@ -25,7 +25,7 @@ class PromptJustOk(GeneralPrompt):
     #              може да има html в него (style-ване, bold, italic и т.н.)
     #
     # Виж пример как се вика от ui.py
-    def __init__(self, title: str, desc_html: str):
+    def __init__(self, title: str, desc_html: str, ok_button_text: str = "Добре"):
         super().__init__()
         self.set_title(title)
 
@@ -64,7 +64,7 @@ class PromptJustOk(GeneralPrompt):
 
         self.ok_button = gui.elements.UIButton(
             relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), self.BUTTON_DIM),
-            text="Добре",
+            text=ok_button_text,
             manager=self.manager,
             container=self.container,
             object_id="#dialogue_box_ok_button",

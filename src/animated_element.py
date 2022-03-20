@@ -9,7 +9,7 @@ import pygame_gui as gui
 
 
 class AnimatedElement:
-    manager: gui.UIManager
+    manager: gui.UIManager = None
 
     target_alpha_t: float = 0
     alpha_t: float = 0
@@ -22,7 +22,7 @@ class AnimatedElement:
     anim_width: int
     anim_height: int
 
-    container: gui.elements.UIPanel
+    container: gui.elements.UIPanel = None
 
     def __init__(self):
         self.anim_width, self.anim_height = GS.win_size
@@ -32,10 +32,12 @@ class AnimatedElement:
         self.anim_render_target_alpha = UI.pool_get_alpha_window_surface()
 
     def __del__(self):
-        self.container.kill()     # Също убива и децата му
-        UI.pool_return_ui_manager(self.manager)
-        UI.pool_return_window_surface(self.anim_render_target)
-        UI.pool_return_alpha_window_surface(self.anim_render_target_alpha)
+        if self.container is not None:
+            self.container.kill()     # Също убива и децата му
+        if self.manager is not None:
+            UI.pool_return_ui_manager(self.manager)
+            UI.pool_return_window_surface(self.anim_render_target)
+            UI.pool_return_alpha_window_surface(self.anim_render_target_alpha)
 
     # Това се вика от state.ui_state, защото там е логиката за queue-ването!
     def show(self, animation: bool):
