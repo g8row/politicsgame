@@ -101,5 +101,28 @@
                 "active_normal": "0"
             }
         }
+    },
+    "#calendar": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "shadow_width": "0"
+        },
+        "images": {
+            "background_image": {
+                "path": "data/ui/SmallBackground2.png"
+            }
+        }
+    },
+    "#calendar_text": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "shadow_width": "0"
+        }
     }
 }

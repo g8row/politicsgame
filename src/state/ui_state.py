@@ -17,6 +17,8 @@ from typing import Any
 #manager: gui.UIManager
 debug_manager: gui.UIManager
 
+non_animated_ui_manager: gui.UIManager
+
 # Eлементи и променливи, които могат да се пипат от конзолата,
 # може да се add-ват отвсякъде.
 elements: dict[str, gui.core.UIElement] = {}

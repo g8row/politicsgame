@@ -89,14 +89,14 @@ class AnimatedElement:
             self.manager.draw_ui(self.anim_render_target_alpha)
 
             #self.ui_render_target_alpha.fill("0xfff6d9")
-            self.anim_render_target.blit(GS.win, (0, 0))
+            self.anim_render_target.blit(GS.world_render_target, (0, 0))
             self.anim_render_target.blit(self.anim_render_target_alpha, (0, 0))
             self.anim_render_target.set_alpha(self.alpha)
 
             scaled = pygame.transform.scale(self.anim_render_target, (self.anim_width, self.anim_height))
-            GS.win.blit(scaled, ((w - self.anim_width) // 2, (h - self.anim_height) // 2))
+            GS.world_render_target.blit(scaled, ((w - self.anim_width) // 2, (h - self.anim_height) // 2))
         else:
-            self.manager.draw_ui(GS.win)
+            self.manager.draw_ui(GS.world_render_target)
 
     def on_event(self, e: Event):
         self.manager.process_events(e)

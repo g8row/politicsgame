@@ -8,7 +8,8 @@ import pygame_gui as gui
 #
 
 win_size: tuple[int, int] = (800, 600)
-win: pygame.surface.Surface
+win_surface: pygame.surface.Surface
+non_animated_ui_surface: pygame.surface.Surface
 
 world_render_target: pygame.surface.Surface     # Самия свят (стаята) се рисува тук
 center: tuple[int, int]     # Кординати на центъра на екрана, за центриране на неща
@@ -22,11 +23,10 @@ images: dict[str, pygame.surface.Surface] = {}
 dt: float
 
 time_in_game = 0     # Измерва се в четвърт-дни, за да вземеш деня раздели на 4
+current_day = -1     # time_in_game / 4, закръглено
 
 time_speed_default = 2     # Мери се в четвърт-дни за секунда
 time_speed = time_speed_default     # Слага се на 0 (паузира), когато има меню отворено
-
-time_print_frame = -1
 
 # Чете се от script.py, първо е деня, после str с constructor-а
 # на prompt-а като валиден Python код.
