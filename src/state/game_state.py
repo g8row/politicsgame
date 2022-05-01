@@ -9,9 +9,6 @@ import pygame_gui as gui
 
 win_size: tuple[int, int] = (800, 600)
 win_surface: pygame.surface.Surface
-non_animated_ui_surface: pygame.surface.Surface
-
-world_render_target: pygame.surface.Surface     # Самия свят (стаята) се рисува тук
 center: tuple[int, int]     # Кординати на центъра на екрана, за центриране на неща
 
 # Тук се слагат картинки, които се четат докато зарежда играта в началото,

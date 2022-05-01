@@ -12,7 +12,6 @@ class DebugConsole:
         self.console = gui.windows.UIConsoleWindow(
             visible=0, rect=pygame.rect.Rect((50, 50), (500, 300)), manager=UI.debug_manager, object_id="#debug_console"
         )
-        UI.add(self.console)
 
     def on_event(self, e: Event):
         console = self.console

@@ -6,6 +6,8 @@ from pygame.event import Event
 import pygame
 import pygame_gui as gui
 
+from overrides import overrides
+
 
 #
 # Прозорчето в началото, което пита за името на играча и т.н.
@@ -44,7 +46,7 @@ class PromptAskForIdentity(GeneralPrompt):
         self.ok_button = gui.elements.UIButton(
             relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), self.BUTTON_DIM),
             text="Добре",
-            manager=self.manager,
+            manager=UI.ui_manager,
             container=self.container,
             object_id="#dialogue_box_ok_button",
             visible=0,
@@ -58,7 +60,7 @@ class PromptAskForIdentity(GeneralPrompt):
 
         self.name_entry = gui.elements.UITextEntryLine(
             relative_rect=pygame.Rect((x, y), (w, button_height)),
-            manager=self.manager,
+            manager=UI.ui_manager,
             container=self.container,
             object_id="#dialogue_box_textentry",
             visible=0
@@ -71,7 +73,7 @@ class PromptAskForIdentity(GeneralPrompt):
             relative_rect=pygame.Rect((x + (w - gender_list_width) / 2, self.ELEMENT_PADDING + 10), self.TEXT_ENTRY_DIM),
             options_list=["Жена", "Небинарен", "Мъж"],
             starting_option="Жена",
-            manager=self.manager,
+            manager=UI.ui_manager,
             container=self.container,
             object_id="#dialogue_box_genderlist",
             visible=0,
@@ -89,7 +91,7 @@ class PromptAskForIdentity(GeneralPrompt):
         self.character = gui.elements.UIImage(
             relative_rect=pygame.Rect((x + (w - character_width) / 2, self.ELEMENT_PADDING + 35), self.CHARACTER_DIM),
             image_surface=pygame.transform.scale(pygame.image.load("data/character.png"), self.CHARACTER_DIM),
-            manager=self.manager,
+            manager=UI.ui_manager,
             container=self.container,
             object_id="#dialogue_box_character",
             visible=0,
@@ -102,6 +104,7 @@ class PromptAskForIdentity(GeneralPrompt):
             }
         )
 
+    @overrides
     def on_event(self, e: Event):
         super().on_event(e)
 

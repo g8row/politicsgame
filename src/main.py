@@ -25,11 +25,6 @@ def main():
 
     # Game state, всички могат да слагат (и махат) неща в тази променилива
     GS.win_surface = win     # пример..., някои функции искат да имат прозореца
-    GS.world_render_target = pygame.Surface(GS.win_size, pygame.SRCALPHA)
-    GS.non_animated_ui_surface = pygame.Surface(GS.win_size, pygame.SRCALPHA)
-
-    UI.debug_manager = gui.UIManager(GS.win_size, "data/debug_ui_theme.json")
-    UI.init_object_pools()
 
     target_fps = 60
 
@@ -41,8 +36,8 @@ def main():
 
     room.init()
 
-    debug_ui.init()
     ui.init()
+    debug_ui.init()
 
     if not script.parse():
         return
@@ -55,22 +50,15 @@ def main():
             if e.type == pygame.QUIT:
                 sys.exit()
             debug_ui.on_event(e)
-            UI.debug_manager.process_events(e)
-
             ui.on_event(e)
 
         # Тук се случва цялата логика за всеки фрейм
-        room.frame()
-        GS.non_animated_ui_surface.fill("0x00000000")
 
+        GS.win_surface.fill("0xfff6d9")     # Изчисти с едно хубаво жълтичко
+
+        room.frame()
         ui.frame()
         debug_ui.frame()
-
-        UI.debug_manager.update(GS.dt)
-
-        GS.win_surface.blit(GS.world_render_target, (0, 0))
-        GS.win_surface.blit(GS.non_animated_ui_surface, (0, 0))
-        UI.debug_manager.draw_ui(GS.win_surface)
 
         seconds_passed = GS.time_speed * GS.dt
         GS.time_in_game += seconds_passed

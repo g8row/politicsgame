@@ -17,7 +17,7 @@ from typing import Any
 #manager: gui.UIManager
 debug_manager: gui.UIManager
 
-non_animated_ui_manager: gui.UIManager
+ui_manager: gui.UIManager
 
 # Eлементи и променливи, които могат да се пипат от конзолата,
 # може да се add-ват отвсякъде.
@@ -93,68 +93,3 @@ def set_prompt_in_hide(p):
         p.hide(animation=False)
 
     prompt_in_hide = p
-
-
-#
-# За анимациите трябва да правим гадории като:
-#   * няколко UI мениджъра
-#   * по два pygame.Surface-и за всеки prompt
-#
-# За да не хабим време да създаваме всеки път нови и да фрагментираме паметта
-# правим object pool. Когато зарежда играта правим 5 default, ако потрябват още
-# по време на run-а се добавят, иначе се рециклират между prompt-ове
-# (виж destructor-а на GeneralPrompt например).
-#
-
-ui_managers: list[gui.UIManager] = []
-alpha_window_surfaces: list[pygame.surface.Surface] = []
-window_surfaces: list[pygame.surface.Surface] = []
-
-
-def _new_ui_manager() -> gui.UIManager:
-    manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
-    manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
-    manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
-    return manager
-
-
-def init_object_pools():
-    initial_amount = 5
-
-    for _ in range(initial_amount):
-        ui_managers.append(_new_ui_manager())
-        alpha_window_surfaces.append(pygame.Surface(GS.win_size, pygame.SRCALPHA))
-        window_surfaces.append(pygame.Surface(GS.win_size).convert())
-
-
-def pool_get_ui_manager() -> gui.UIManager:
-    if len(ui_managers) > 0:
-        return ui_managers.pop(0)
-    else:
-        return _new_ui_manager()
-
-
-def pool_get_window_surface() -> pygame.surface.Surface:
-    if len(window_surfaces) > 0:
-        return window_surfaces.pop(0)
-    else:
-        return pygame.Surface(GS.win_size).convert()
-
-
-def pool_get_alpha_window_surface() -> pygame.surface.Surface:
-    if len(alpha_window_surfaces) > 0:
-        return alpha_window_surfaces.pop(0)
-    else:
-        return pygame.Surface(GS.win_size, pygame.SRCALPHA)
-
-
-def pool_return_ui_manager(manager: gui.UIManager):
-    ui_managers.append(manager)
-
-
-def pool_return_window_surface(surface: pygame.surface.Surface):
-    window_surfaces.append(surface)
-
-
-def pool_return_alpha_window_surface(surface: pygame.surface.Surface):
-    alpha_window_surfaces.append(surface)
