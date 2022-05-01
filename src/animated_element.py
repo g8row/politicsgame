@@ -43,20 +43,20 @@ class AnimatedElement(EnforceOverrides):
 
     def frame(self):
         if self.target_t != self.t:
-            if abs(self.target_t - self.t) < 0.001:
+            if self.target_t == 1.0:
+                self.t += 1 / self.animation_duration * (1 / 60)
+            else:
+                self.t -= 1 / self.animation_duration * (1 / 60)
+
+            self.alpha = int(slerp(0.0, 1.0, self.t) * 255.0)
+            self.on_t_changed(self.alpha, self.t)
+        
+            if abs(self.target_t - self.t) < 0.01:
                 self.t = self.target_t
                 if self.target_t == 1.0:
                     self.on_t_reached_1()
                 if self.target_t == 0.0:
                     self.on_t_reached_0()
-            else:
-                if self.target_t == 1.0:
-                    self.t += 1 / self.animation_duration * (1 / 60)
-                else:
-                    self.t -= 1 / self.animation_duration * (1 / 60)
-
-            self.alpha = int(slerp(0.0, 1.0, self.t) * 255.0)
-            self.on_t_changed(self.alpha, self.t)
 
 
 def slerp(x: float, x1: float, t: float) -> float:
