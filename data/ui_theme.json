@@ -125,6 +125,29 @@
             "shadow_width": "0"
         }
     },
+    "#hammers": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "shadow_width": "0"
+        },
+        "images": {
+            "background_image": {
+                "path": "data/ui/Hammers.png"
+            }
+        }
+    },
+    "#hammers_text": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "shadow_width": "0"
+        }
+    },
     "#metrics": {
         "colours": {
             "dark_bg": "#00000000",

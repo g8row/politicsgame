@@ -43,6 +43,8 @@ class DebugConsole:
                 self.handle_metrics_command(args)
             elif tokens[0] == "marker":
                 self.handle_marker_command(args)
+            elif tokens[0] == "hammers":
+                self.handle_hammers_command(args)
             else:
                 console.add_output_line_to_log(f"Незнайна команда: '{tokens[0]}'")
 
@@ -130,7 +132,7 @@ class DebugConsole:
 
         if len(args) < 2:
             console.add_output_line_to_log(
-                "'metrics' му трябва индекс (0 - икономика, 1 - одобрение) и стойност (число от 0 до 1, което представлява от 0% до 100%)"
+                "'marker' му трябва индекс (0 - икономика, 1 - одобрение) и стойност (число от 0 до 1, което представлява от 0% до 100%)"
             )
             return
 
@@ -138,3 +140,13 @@ class DebugConsole:
         factor = float(args[1])
 
         GS.metrics.set_marker_percentage(index, factor)
+
+    def handle_hammers_command(self, args: list[str]):
+        console = self.console
+
+        if len(args) < 1:
+            console.add_output_line_to_log("'hammers' му трябва положително (или отрицателно) число, което казва колко чукчета да добави (или махне)")
+            return
+
+        hammers = int(args[0])
+        GS.hammers.add_hammers(hammers)

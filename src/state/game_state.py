@@ -34,6 +34,8 @@ script_parsed: dict[int, list[str]] = {}
 
 from gameplay.calendar import Calendar
 from gameplay.metrics import Metrics
+from gameplay.hammers import Hammers
 
 calendar: Calendar
 metrics: Metrics
+hammers: Hammers

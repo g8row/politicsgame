@@ -1,3 +1,4 @@
+from gameplay.hammers import Hammers
 import state.game_state as GS
 import state.ui_state as UI
 
@@ -9,6 +10,7 @@ from prompts.prompt_just_ok import PromptJustOk
 from prompts.prompt_ask_for_identity import PromptAskForIdentity
 from gameplay.calendar import Calendar
 from gameplay.metrics import Metrics
+from gameplay.hammers import Hammers
 
 
 def init():
@@ -17,10 +19,12 @@ def init():
     UI.ui_manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
     UI.ui_manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
     UI.ui_manager.preload_fonts([{"name": "Pala", "point_size": 16, "style": "regular"}])
+    UI.ui_manager.preload_fonts([{"name": "Pala", "point_size": 18, "style": "regular"}])
     UI.ui_manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
 
     GS.calendar = Calendar()
     GS.metrics = Metrics()
+    GS.hammers = Hammers()
 
 
 def on_event(e: Event):
