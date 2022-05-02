@@ -9,6 +9,8 @@ import pygame_gui as gui
 
 from overrides import overrides
 
+import traceback
+
 
 class GeneralPrompt(AnimatedElement):
     #
@@ -72,15 +74,20 @@ class GeneralPrompt(AnimatedElement):
 
         self.title.text
 
+    def on_show(self):
+        pass
+
     # Това се вика от state.ui_state, защото там е логиката за queue-ването!
     def show(self, animation: bool):
         self.container.show()
+        self.on_show()
 
         try:
             if len(self.pre_code):
-                eval(self.pre_code)
-        except Exception as exception:
-            print(f"Грешка в pre_code \"{self.pre_code}\": ", exception)
+                exec(self.pre_code)
+        except Exception:
+            print(f"Грешка в pre_code \"{self.pre_code}\"")
+            traceback.print_exc()
 
         if animation:
             self.container.disable()
@@ -94,9 +101,10 @@ class GeneralPrompt(AnimatedElement):
     def hide(self, animation: bool):
         try:
             if len(self.end_code):
-                eval(self.end_code)
-        except Exception as exception:
-            print(f"Грешка в end_code \"{self.end_code}\": ", exception)
+                exec(self.end_code)
+        except Exception:
+            print(f"Грешка в end_code \"{self.end_code}\"")
+            traceback.print_exc()
 
         if animation:
             UI.set_prompt_in_hide(self)

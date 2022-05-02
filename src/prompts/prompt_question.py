@@ -96,21 +96,20 @@ class PromptQuestion(GeneralPrompt):
         self.end_code = end_code
 
     @overrides
+    def on_show(self):
+        self.desc.hide()
+
+    @overrides
     def frame(self):
         super().frame()
 
         # Това е хак, защото pygame_gui има лек бъг с text typing ефекта..
         # Държим текста невидим за (поне) 5 фрейма докато не почне да пише първата буква,
         # иначе има лек период, в който е видимо цялото описание.
-        #
-        # Държим го за 13, защото анимацията на появяване на нещото отнема 0.2 секунди,
-        # което на 60 fps e 12 фрейма. Пипаме алфата само на контейнъра, защото
-        # когато пипане и текста стават гадни ръбове.
         if self.desc_to_show_next_frames == 1:
             self.desc.set_text(self.desc_text_to_show)
             self.desc.set_active_effect(gui.TEXT_EFFECT_TYPING_APPEAR, params={"time_per_letter": 0.00001})
-            self.desc.hide()
-        if self.desc_to_show_next_frames == 13:
+        if self.desc_to_show_next_frames == 6:
             self.desc.show()
             self.desc_to_show_next_frames = 0
         if self.desc_to_show_next_frames != 0:

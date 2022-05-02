@@ -18,9 +18,31 @@ def init():
 
     UI.ui_manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
     UI.ui_manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
-    UI.ui_manager.preload_fonts([{"name": "Pala", "point_size": 16, "style": "regular"}])
-    UI.ui_manager.preload_fonts([{"name": "Pala", "point_size": 18, "style": "regular"}])
-    UI.ui_manager.preload_fonts([{"name": "Pala", "point_size": 14, "style": "regular"}, {"name": "Pala", "point_size": 14, "style": "bold"}])
+    UI.ui_manager.preload_fonts(
+        [
+            {
+                "name": "Pala",
+                "point_size": 14,
+                "style": "regular"
+            }, {
+                "name": "Pala",
+                "point_size": 14,
+                "style": "bold"
+            }, {
+                'name': 'Pala',
+                'point_size': 14,
+                'style': 'italic'
+            }, {
+                "name": "Pala",
+                "point_size": 16,
+                "style": "regular"
+            }, {
+                "name": "Pala",
+                "point_size": 18,
+                "style": "regular"
+            }
+        ]
+    )
 
     GS.calendar = Calendar()
     GS.metrics = Metrics()

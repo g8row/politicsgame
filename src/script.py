@@ -24,6 +24,8 @@ def commit_prompt(day: int, type: str, parameters: list[str], line: int) -> bool
             doing_code = False
         if not doing_code and index != (len(parameters) - 1):
             constructor += ", "
+        else:
+            constructor += "\n"
     constructor += ")"
 
     # Пробвай да създадеш такъв prompt с тези параметри,
@@ -71,14 +73,21 @@ def parse() -> bool:
     last_prompt_parameters: list[str] = []
     last_prompt_line: int = 0
 
+    doing_code = False
+
     for l in lines:
-        l = l.strip()
+        if not doing_code:
+            l = l.strip()
         line += 1
 
         if len(l) == 0:
             continue
         if l[0] == "#":
             continue     # Коментар
+        if l.startswith("pre_code") or l.startswith("end_code"):
+            doing_code = True
+        if doing_code and l.startswith('"""'):
+            doing_code = False
 
         if l[0] == "[":
             if not commit_prompt(last_prompt_day, last_prompt_type, last_prompt_parameters, last_prompt_line):
@@ -135,10 +144,9 @@ def parse() -> bool:
             continue
 
         if last_prompt_type != "":
-            l_stripped = l.strip()
-            if l_stripped[-1] == ",":
-                l_stripped = l_stripped[:-1]
-            last_prompt_parameters.append(l_stripped)
+            if l[-1] == ",":
+                l = l[:-1]
+            last_prompt_parameters.append(l)
 
     if not commit_prompt(last_prompt_day, last_prompt_type, last_prompt_parameters, last_prompt_line):
         return False
