@@ -35,10 +35,6 @@ class GeneralPrompt(AnimatedElement):
 
     # Колко да са големи самите UI елементи, хубаво е да са еднакви във всеки прозорец, за да има consistency
     BUTTON_DIM = (90, 50)
-    TEXT_ENTRY_DIM = (130, 25)
-
-    # Самото геройче дето излиза в началото на играта, когато те пита за името
-    CHARACTER_DIM = (80, 110)
 
     container: gui.elements.UIPanel
     title: gui.elements.UILabel

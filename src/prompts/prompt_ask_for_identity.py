@@ -13,6 +13,9 @@ from overrides import overrides
 # Прозорчето в началото, което пита за името на играча и т.н.
 #
 class PromptAskForIdentity(GeneralPrompt):
+    TEXT_ENTRY_DIM = (130, 25)
+    CHARACTER_DIM = (80, 110)
+
     ok_button: gui.elements.UIButton
 
     name_entry: gui.elements.UITextEntryLine

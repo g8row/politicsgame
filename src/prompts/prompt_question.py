@@ -10,16 +10,21 @@ from overrides import overrides
 
 
 #
-# Прозорче със заглавие и текст с един бутон "Добре".
-# Ползва се само за информация, не когато се иска избор от играча.
+# Прозорче със заглавие и текст (въпрос) и колкото искаш на брой отговори.
+# Всеки отговор има индекс (от 0 до n-1) и set-ва self.option в GeneralPrompt.
+# В end_code може да се access-не индекса на отговора, който е даден.
 #
-class PromptJustOk(GeneralPrompt):
+class PromptQuestion(GeneralPrompt):
+    OPTION_DIM = (500, 30)
+    OPTION_PADDING = 5
+
     title: gui.elements.UILabel
     desc: gui.elements.UITextBox
-    ok_button: gui.elements.UIButton
 
     desc_to_show_next_frames: int = 0
     desc_text_to_show: str
+
+    buttons: dict[gui.elements.UIButton, int] = {}
 
     # title      - oбикновен string; това, което се показва
     #              горе в синьото правоъгълниче
@@ -27,7 +32,7 @@ class PromptJustOk(GeneralPrompt):
     #              може да има html в него (style-ване, bold, italic и т.н.)
     #
     # Виж пример как се вика от ui.py
-    def __init__(self, title: str = "", desc_html: str = "", pre_code: str = "", end_code: str = "", ok_button_text: str = "Добре"):
+    def __init__(self, title: str = "", desc_html: str = "", pre_code: str = "", end_code: str = "", options_html: list[str] = ["1", "2", "3"]):
         super().__init__()
         self.set_title(title)
 
@@ -47,14 +52,14 @@ class PromptJustOk(GeneralPrompt):
         tw, th = self.DIM
         dy = th - (uy + uh)
 
-        button_width, button_height = self.BUTTON_DIM
+        option_width, option_height = self.OPTION_DIM
 
-        dy += button_height
+        dy += option_height
         dy += self.PADDING
 
         self.desc = gui.elements.UITextBox(
             html_text="",
-            relative_rect=pygame.Rect((x, y), (w, h - button_height - self.ELEMENT_PADDING)),
+            relative_rect=pygame.Rect((x, y), (w, h - self.OPTION_PADDING - len(options_html) * (option_height + self.OPTION_PADDING))),
             manager=UI.ui_manager,
             container=self.container,
             object_id="#dialogue_box_desc",
@@ -64,20 +69,28 @@ class PromptJustOk(GeneralPrompt):
         self.desc_to_show_next_frames = 1
         self.desc_text_to_show = desc_html
 
-        self.ok_button = gui.elements.UIButton(
-            relative_rect=pygame.Rect((x + (w - button_width) / 2, -dy), self.BUTTON_DIM),
-            text=ok_button_text,
-            manager=UI.ui_manager,
-            container=self.container,
-            object_id="#dialogue_box_ok_button",
-            visible=0,
-            anchors={
-                'top': 'bottom',
-                'left': 'left',
-                'bottom': 'bottom',
-                'right': 'left'
-            }
-        )
+        index = len(options_html) - 1
+
+        for o in reversed(options_html):
+            button = gui.elements.UIButton(
+                relative_rect=pygame.Rect((x + (w - option_width) / 2, -dy), self.OPTION_DIM),
+                text=o,
+                manager=UI.ui_manager,
+                container=self.container,
+                object_id="#question_option_button",
+                visible=0,
+                anchors={
+                    "top": "bottom",
+                    "left": "left",
+                    "bottom": "bottom",
+                    "right": "left"
+                }
+            )
+
+            self.buttons[button] = index
+            index -= 1
+
+            dy += option_height + self.OPTION_PADDING
 
         self.pre_code = pre_code
         self.end_code = end_code
@@ -109,7 +122,9 @@ class PromptJustOk(GeneralPrompt):
 
         # Играча цъка бутона...
         if e.type == gui.UI_BUTTON_PRESSED:
-            if e.ui_element == self.ok_button:
+            if e.ui_element in self.buttons:
+                self.option = self.buttons[e.ui_element]     # Отбележи индекса на избрания отговор...
+                print("Option:", self.option)
                 UI.prompt_hide()     # Не скривай директно! Има логика за queue-ване в state.ui_state...
 
         # Играча цъка текста, който се изписва, тук забързваме анимацията

@@ -68,6 +68,23 @@
             "border_width": "1"
         }
     },
+    "#question_option_button": {
+        "colours": {
+            "normal_bg": "#eeeeee11",
+            "hovered_bg": "#eeeeee22",
+            "disabled_bg": "#00000000",
+            "selected_bg": "#00000000",
+            "selected_border": "#00000000",
+            "active_bg": "#00000000",
+            "normal_text": "#000000ff",
+            "hovered_text": "#000000ff",
+            "active_text": "#000000ff"
+        },
+        "misc": {
+            "border_width": "0",
+            "shadow_width": "0"
+        }
+    },
     "#dialogue_box_ok_button": {
         "colours": {
             "normal_bg": "#00000000",

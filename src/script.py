@@ -3,6 +3,7 @@ import state.game_state as GS
 # @Volatile: Всички възможни prompt-ове от script-а трябва да са import-нати тук и в script.py
 from prompts.prompt_ask_for_identity import PromptAskForIdentity
 from prompts.prompt_just_ok import PromptJustOk
+from prompts.prompt_question import PromptQuestion
 
 
 def report_error(line: int, message: str):
