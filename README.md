@@ -11,3 +11,11 @@ Install pygame and pygame_gui:
 `pip install pygame_gui -U`
 
 Then run `src/main.py` with Python :)
+
+## Deploying
+
+To deploy the game to a single exe file you need
+`pip install pyinstaller`
+
+Then run `pyinstaller --onefile src/main.py`. Copy `data` dir to `dist` and open `dist/main.exe`.
+

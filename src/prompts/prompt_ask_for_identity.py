@@ -24,7 +24,7 @@ class PromptAskForIdentity(GeneralPrompt):
 
     def __init__(self):
         super().__init__()
-        self.set_title("Ти си...")
+        self.set_title("Вие сте...")
 
         ux, uy = self.USABLE_TOP_LEFT
         uw, uh = self.USABLE_DIM

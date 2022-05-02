@@ -12,11 +12,16 @@ from gameplay.calendar import Calendar
 from gameplay.metrics import Metrics
 from gameplay.hammers import Hammers
 
+import os
+
 
 def init():
-    UI.debug_manager = gui.UIManager(GS.win_size, "data/debug_ui_theme.json")
+    debug_ui_theme = os.path.join(os.getcwd(), "data", "debug_ui_theme.json")
+    ui_theme = os.path.join(os.getcwd(), "data", "ui_theme.json")
 
-    UI.ui_manager = gui.UIManager(GS.win_size, "data/ui_theme.json")
+    UI.debug_manager = gui.UIManager(GS.win_size, debug_ui_theme)
+
+    UI.ui_manager = gui.UIManager(GS.win_size, ui_theme)
     UI.ui_manager.add_font_paths("Pala", regular_path="data/fonts/pala.ttf", bold_path="data/fonts/palab.ttf")
     UI.ui_manager.preload_fonts(
         [
