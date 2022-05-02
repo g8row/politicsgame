@@ -31,3 +31,9 @@ script: dict[int, list[str]] = {}
 
 # Първо се чете тук, ако има грешка се прекъсва и не се записва в script
 script_parsed: dict[int, list[str]] = {}
+
+from gameplay.calendar import Calendar
+from gameplay.metrics import Metrics
+
+calendar: Calendar
+metrics: Metrics

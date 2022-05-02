@@ -42,7 +42,7 @@ def main():
     if not script.parse():
         return
 
-    frame_time_stack = deque([])
+    # frame_time_stack = deque([])
 
     prev_time = time.time_ns()
     while True:
@@ -81,10 +81,10 @@ def main():
         diff = curr_time - prev_time
         prev_time = curr_time
 
-        frame_time_stack.append(diff / 10**9)
-        if len(frame_time_stack) > 2000:
-            frame_time_stack.popleft()
-        pygame.display.set_caption("res publica | {:.2f} FPS".format(1 / (sum(frame_time_stack) / len(frame_time_stack))))
+        # frame_time_stack.append(diff / 10**9)
+        # if len(frame_time_stack) > 2000:
+        #    frame_time_stack.popleft()
+        #pygame.display.set_caption("res publica | {:.2f} FPS".format(1 / (sum(frame_time_stack) / len(frame_time_stack))))
 
         pygame.display.update()
 

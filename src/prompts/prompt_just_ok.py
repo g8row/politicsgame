@@ -27,7 +27,7 @@ class PromptJustOk(GeneralPrompt):
     #              може да има html в него (style-ване, bold, italic и т.н.)
     #
     # Виж пример как се вика от ui.py
-    def __init__(self, title: str, desc_html: str, ok_button_text: str = "Добре"):
+    def __init__(self, title: str = "", desc_html: str = "", pre_code: str = "", end_code: str = "", ok_button_text: str = "Добре"):
         super().__init__()
         self.set_title(title)
 
@@ -79,6 +79,9 @@ class PromptJustOk(GeneralPrompt):
             }
         )
 
+        self.pre_code = pre_code
+        self.end_code = end_code
+
     @overrides
     def frame(self):
         super().frame()
@@ -92,7 +95,7 @@ class PromptJustOk(GeneralPrompt):
         # когато пипане и текста стават гадни ръбове.
         if self.desc_to_show_next_frames == 1:
             self.desc.set_text(self.desc_text_to_show)
-            self.desc.set_active_effect(gui.TEXT_EFFECT_TYPING_APPEAR, params={"time_per_letter": 0.05})
+            self.desc.set_active_effect(gui.TEXT_EFFECT_TYPING_APPEAR, params={"time_per_letter": 0.00001})
             self.desc.hide()
         if self.desc_to_show_next_frames == 13:
             self.desc.show()
@@ -114,4 +117,4 @@ class PromptJustOk(GeneralPrompt):
             mx, my = pygame.mouse.get_pos()
             if self.desc.rect.collidepoint((mx, my)):
                 if self.desc.active_text_effect is not None:
-                    self.desc.active_text_effect.time_per_letter = 0.00001
+                    self.desc.active_text_effect.time_per_letter = 0.000005

@@ -1,6 +1,3 @@
-import math
-
-from pygame.constants import BLEND_RGB_SUB
 from animated_element import AnimatedElement, slerp
 
 import state.game_state as GS
@@ -46,6 +43,14 @@ class GeneralPrompt(AnimatedElement):
     container: gui.elements.UIPanel
     title: gui.elements.UILabel
 
+    pre_code: str = ""
+    end_code: str = ""
+
+    # Коя опция като индекс е избрал играча при скриване на prompt-а,
+    # може да се access-не в end_code чрез "self.option",
+    # но не винаги има смисъл... (напр. None е за prompt-ове без опции)
+    option: int
+
     def __init__(self):
         super().__init__()
 
@@ -74,6 +79,13 @@ class GeneralPrompt(AnimatedElement):
     # Това се вика от state.ui_state, защото там е логиката за queue-ването!
     def show(self, animation: bool):
         self.container.show()
+
+        try:
+            if len(self.pre_code):
+                eval(self.pre_code)
+        except Exception as exception:
+            print(f"Грешка в pre_code \"{self.pre_code}\": ", exception)
+
         if animation:
             self.container.disable()
             self.begin_alpha_animation(True)
@@ -84,6 +96,12 @@ class GeneralPrompt(AnimatedElement):
 
     # Това се вика от state.ui_state, защото там е логиката за queue-ването!
     def hide(self, animation: bool):
+        try:
+            if len(self.end_code):
+                eval(self.end_code)
+        except Exception as exception:
+            print(f"Грешка в end_code \"{self.end_code}\": ", exception)
+
         if animation:
             UI.set_prompt_in_hide(self)
             self.container.disable()

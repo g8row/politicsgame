@@ -1,4 +1,5 @@
 from pygame.event import Event
+import state.game_state as GS
 import state.ui_state as UI
 
 import pygame
@@ -12,6 +13,7 @@ class DebugConsole:
         self.console = gui.windows.UIConsoleWindow(
             visible=0, rect=pygame.rect.Rect((50, 50), (500, 300)), manager=UI.debug_manager, object_id="#debug_console"
         )
+        UI.add(self.console)
 
     def on_event(self, e: Event):
         console = self.console
@@ -37,6 +39,10 @@ class DebugConsole:
                 self.handle_set_command(args)
             elif tokens[0] == "modify_ui" or tokens[0] == "modui" or tokens[0] == "ui":
                 self.handle_modify_ui_command(args)
+            elif tokens[0] == "metrics":
+                self.handle_metrics_command(args)
+            elif tokens[0] == "marker":
+                self.handle_marker_command(args)
             else:
                 console.add_output_line_to_log(f"Незнайна команда: '{tokens[0]}'")
 
@@ -108,3 +114,27 @@ class DebugConsole:
                 v.rebuild()
         except Exception as exception:
             console.add_output_line_to_log(f"Имаше грешка при изпълнение: {exception}")
+
+    def handle_metrics_command(self, args: list[str]):
+        console = self.console
+
+        if len(args) < 1:
+            console.add_output_line_to_log("'metrics' му трябва режим (0 - disabled, 1 - само икономика, 2 - икономика и одобрение)")
+            return
+
+        mode = int(args[0])
+        GS.metrics.set_mode(mode)
+
+    def handle_marker_command(self, args: list[str]):
+        console = self.console
+
+        if len(args) < 2:
+            console.add_output_line_to_log(
+                "'metrics' му трябва индекс (0 - икономика, 1 - одобрение) и стойност (число от 0 до 1, което представлява от 0% до 100%)"
+            )
+            return
+
+        index = int(args[0])
+        factor = float(args[1])
+
+        GS.metrics.set_marker_percentage(index, factor)

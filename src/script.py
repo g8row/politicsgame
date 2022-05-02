@@ -13,7 +13,17 @@ def commit_prompt(day: int, type: str, parameters: list[str], line: int) -> bool
     if len(type) == 0:
         return True     # Не е грешка ако няма prompt
 
-    constructor = f"{type}({','.join(parameters)})"
+    doing_code = False
+    constructor = f"{type}("
+    for index, p in enumerate(parameters):
+        constructor += p
+        if p.startswith("pre_code") or p.startswith("end_code"):
+            doing_code = True
+        if p.startswith('"""'):
+            doing_code = False
+        if not doing_code and index != (len(parameters) - 1):
+            constructor += ", "
+    constructor += ")"
 
     # Пробвай да създадеш такъв prompt с тези параметри,
     # така хващаме грешката още при четене вместо да

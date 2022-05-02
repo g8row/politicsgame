@@ -11,7 +11,6 @@ from typing import List
 
 def init():
     UI.debug_console = DebugConsole()
-    UI.add(UI.debug_console.console)
 
 
 def on_event(e: Event):
