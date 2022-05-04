@@ -30,8 +30,6 @@ class PromptQuestion(GeneralPrompt):
     #              горе в синьото правоъгълниче
     # desc_html  - текстът, който има анимация на изписване,
     #              може да има html в него (style-ване, bold, italic и т.н.)
-    #
-    # Виж пример как се вика от ui.py
     def __init__(
         self,
         title: str = "",
