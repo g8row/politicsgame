@@ -9,7 +9,10 @@
 
 [day = 1, type = PromptQuestion]
 title = "Масло"
-desc_html = "<font face='Pala', color='#000000', size=4>Здравейте,<br><br>В национален план се забелязва недоволство от драстичния скок на цената на маслото. Какво ще предприемете?<br><br><b>Иван Иванов</b><br><i>Главен секретар на Министерския съвет</i></font>"
+desc_html = "<font face='Pala', color='#000000', size=4>Здравейте,<br><br>В национален 
+план се забелязва недоволство от драстичния скок на цената на маслото. 
+Какво ще предприемете?<br><br><b>Иван Иванов</b><br><i>Главен секретар на 
+Министерския съвет</i></font>"
 options_html = ["Да направим информационна кампания в медиите (едно чукче)", "Да не правим нищо"] 
 
 pre_code = """
@@ -24,7 +27,7 @@ if self.option == 0:
         GS.butter_inf_campaign = True
 
 if self.option == 1:
-    GS.add_approval(-10)
+    GS.add_approval(-5)
     GS.add_economy(-5)
 """
 
@@ -36,11 +39,151 @@ ok_button_text = "Супер"
 condition = "GS.butter_inf_campaign"
 
 pre_code = """
-GS.add_approval(10)
+GS.add_approval(5)
 GS.add_economy(5)
 """
 
 end_code = """
 """
+[day = 3, type = PromptQuestion]
+title = "Плаж"
+desc_html = "<font face='Pala', color='#000000', size=4>Милон Дъск, световноизвестен милиардер, се свързва с Вас с предложение да насочи към България голяма инвестиция и да построи на територията на страната завод, който ще създаде хиляди  работни места в бъдеще и би бил един от големите източници на приходи за бюджета. В замяна на това Дъск иска да закупи два от последните незатроени плажове на Българското Черноморие, за да играе необезпокояван федербал край лазурното море. Какво ще предприемете?</font>"
+options_html = ["Приемам предложението", "Отказвам предложението"]
+
+end_code = """
+if self.option == 0:
+    GS.econ_growth = 1
+    GS.add_economy(GS.econ_growth) 
+    GS.decision_one = True;
+
+if self.option == 1:
+    GS.econ_growth = -1;
+    GS.add_economy(GS.econ_growth)
+    GS.decision_two = True;
+"""
+[day = 4, type = PromptJustOk]
+title = "Знаете ли, че...?"
+desc_html = "<font face='Pala', color='#000000', size=4>Според чл. 18, ал.1 на Конституцията на Република България плажната ивица е изключителна държавна собственост. През 1993г. Конституционният съд разяснява, че тези обекти поради важността си могат да принадлежат само на държавата, поради което върху нея тежи конституционното задължение да не ги отчуждава. </font>"
+ok_button_text = "Ок"
+
+pre_code = """
+"""
+
+end_code = """
+"""
+
+
+[day = 5, type = PromptJustOk]
+title = "Резултат от решението за г-н Дъск"
+desc_html = "<font face='Pala', color='#000000', size=4>Решението Ви може да се тълкува като противоконституционно, макар Вие на практика да представлявате държавата. Доверието на обществото в правителството е разклатено.</font>"
+ok_button_text = "Ок"
+
+condition = "GS.decision_one"
+pre_code = """
+GS.add_approval(-20)
+"""
+end_code = """
+"""
+[day = 6, type = PromptJustOk]
+title = "Резултат от решението за г-н Дъск"
+desc_html = "<font face='Pala', color='#000000', size=4>Решението Ви е музика за ушите на природозащитниците и любителите на Българското Черноморие.</font>"
+ok_button_text = "Ок"
+
+condition = "GS.decision_two"
+pre_code = """
+GS.add_approval(15)
+"""
+
+end_code = """
+"""
+
+[day = 7, type = PromptJustOk]
+title = "Знаете ли, че...?"
+desc_html = "<font face='Pala', color='#000000', size=4></i>Концесията е право на експлоатация върху обект и/или услуга от обществен интерес, предоставено от концедент (държавата, общината или публичноправна организация) на фирма – концесионер. Концесията се предоставя чрез писмен договор за дълъг период от време. Чрез концесията на една фирма се възлага задължението да поддържа и експлоатира един държавен или общински обект (напр. плаж) или да осигури някаква услуга от обществено значение (напр. да развива туризма, като предоставя чадъри и шезлонги). В замяна на тези свои задължения фирмата има право да събира доход от дейността, която й е била възложена.</font>"
+ok_button_text = "Ok"
+
+end_code = """
+"""
+
+[day = 8, type = PromptQuestion]
+title = "Див плаж"
+desc_html = "<font face='Pala', color='#000000', size=4>Ивана Богданска, един от най-големите български бизнесдами(често забъркваща се в съмнителни сделки, но никога осъждана)иска да закупи от държавата малка част от плажната ивица на Северното Черноморие, която е част от територията на така наречените 'диви плажове'. <br> За да не я сметнат за нахална, г-жа Богданска оправдава молбата си с довода, че наскоро сте преотстъпили много по-голяма част от плажа на Милън Дъск. Как ще отговорите на Ивана Богданска? </font>"
+options_html = ["Няма как да стане", "Добре"]
+
+condition = "GS.decision_one"
+
+end_code = """
+if self.option == 0:
+    GS.add_oligarchs(-20)
+    GS.decision_one = True;
+
+
+if self.option == 1:
+    GS.add_oligarchs(10)
+    GS.decision_two = True;
+    GS.add_approval(-15)
+"""
+#popup1 za reshenie 0, bogdanska se iznasq ot bg
+[day = 10, type = PromptJustOk]
+title = "Недоволство"
+desc_html = "<font face='Pala', color='#000000', size=4></i>Г-жа Богданска оповести пред медиите, че изнася целия си бизнес в съседна на България държава, тъй като тук не виждала бъдещо развитие.</font>"
+ok_button_text = "Ok"
+
+condition = "GS.decision_one"
+end_code = """
+GS.add_economy(GS.econ_growth-13)
+GS.econ_growth = -2
+"""
+
+#popup2 za reshenie 0, prirodozashtitnici sa happy
+[day = 10, type = PromptJustOk]
+title = "Недоволство"
+desc_html = "<font face='Pala', color='#000000', size=4></i>На интервю по Българската телевизия на нацията няколко изявени природозастъпници от споделят, че са доволни от правителството, което според тях 'защитава българската природа'.</font>"
+ok_button_text = "Ok"
+
+condition = "GS.decision_one"
+end_code = """
+GS.add_approval(15)
+"""
+
+#test za koncesiqta za chukche
+[day = 9, type = PromptQuestion]
+title = "Митко Пушката"
+desc_html = "<font face='Pala', color='#000000', size=4>Договорът на сегашния 
+концесионер на една от най-големите ски писти в България, наричан с прякора Митко Пушката, изтича след няколко 
+месеца. Митко настоява договорът да бъде подновен, макар че през последния сезон е 
+имало силно обществено недоволство заради лошата поддръжка на съоръженията. Митко е известен също и с репутацията си на олигарх.
+<br>За концесионер се кандитатира още една фирма, която няма никакъв опит и със 
+сигурност представлява огромен риск. Тя обаче се моли да й бъде даден шанс, и обещава по-добра 
+поддръжка и по-висока доходност. Какво е Вашето решение на проблема?</font>"
+options_html = ["Ще заложа на старото, защото е сигурно", "Ще рискувам с новата фирма"]
+
+end_code = """
+if self.option == 0:
+    if GS.hammers.amount >= 1:
+        GS.hammers.add_hammers(-1)
+        GS.butter_inf_campaign = True
+
+if self.option == 1:
+    GS.add_approval(-5)
+    GS.add_economy(-5)
+"""
+#posledica ot koncesiq - loshi i dobri(ot sekretarq)
+
+#Ministurut vutr taboti
+
+ #posledici
+
+#Nezakonni postroiki
+#posledica, ako otkaja
+#vupros pri minal otkaz
+#posledica, ako sum priela
+#2ra posledica, ako sum priela
+
+#kushtata s qgodite
+
+#halite
+
+
 
 
