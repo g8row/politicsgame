@@ -40,7 +40,7 @@ metrics: Metrics
 hammers: Hammers
 
 economy: int = 50     # 0-100
-approval: int = 70     # 0-100
+approval: int = 55     # 0-100
 oligarchs: int = 70     # 0-100
 
 
@@ -79,3 +79,6 @@ def add_oligarchs(amount: int):
 
 
 butter_inf_campaign: bool = False
+decision_one: bool = False #Отбелязваме кои прозорци след кои решения идват
+decision_two: bool = False
+econ_growth: int = 0 #Променлива, която означава с колко процента дневно се променя икономиката
