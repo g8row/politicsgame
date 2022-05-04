@@ -86,6 +86,8 @@ class GeneralPrompt(AnimatedElement):
         except Exception:
             print(f"Грешка в condition \"{self.condition}\"")
             traceback.print_exc()
+            evaluated = False
+
         return evaluated
 
     # Това се вика от state.ui_state, защото там е логиката за queue-ването!
