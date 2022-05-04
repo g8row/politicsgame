@@ -84,7 +84,7 @@ class GeneralPrompt(AnimatedElement):
             if len(self.condition):
                 evaluated = eval(self.condition)
         except Exception:
-            print(f"Грешка в condition \"{self.pre_code}\"")
+            print(f"Грешка в condition \"{self.condition}\"")
             traceback.print_exc()
         return evaluated
 
