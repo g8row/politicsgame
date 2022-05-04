@@ -18,9 +18,8 @@ GS.hammers.show()
 """
 
 end_code = """
-GS.butter_inf_campaign = False
 if self.option == 0:
-    GS.hammers.amount >= 1:
+    if GS.hammers.amount >= 1:
         GS.hammers.add_hammers(-1)
         GS.butter_inf_campaign = True
 

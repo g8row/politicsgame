@@ -76,3 +76,6 @@ def add_oligarchs(amount: int):
         oligarchs = 0
     if oligarchs > 100:
         oligarchs = 100
+
+
+butter_inf_campaign: bool = False

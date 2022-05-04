@@ -1,4 +1,5 @@
 from pygame.event import Event
+import state.game_state as GS
 import state.ui_state as UI
 
 import pygame
@@ -31,8 +32,8 @@ class Metrics():
         self.make_marker(19, 55, 176)
         self.make_marker(60, 55, 176)
         
-        self.set_marker_percentage(0, 0.5)
-        self.set_marker_percentage(1, 0.5)
+        self.set_marker_percentage(0, GS.economy / 100)
+        self.set_marker_percentage(1, GS.approval / 100)
 
     def set_mode(self, mode: int):
         metrics: gui.elements.UIPanel = UI.get("#metrics")

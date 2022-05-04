@@ -42,7 +42,11 @@ class GeneralPrompt(AnimatedElement):
     title: gui.elements.UILabel
 
     pre_code: str = ""
+    pre_code_ran: bool = False
+
     end_code: str = ""
+    end_code_ran: bool = False
+
     condition: str = ""
 
     # Коя опция като индекс е избрал играча при скриване на prompt-а,
@@ -95,12 +99,14 @@ class GeneralPrompt(AnimatedElement):
         self.container.show()
         self.on_show()
 
-        try:
-            if len(self.pre_code):
-                exec(self.pre_code)
-        except Exception:
-            print(f"Грешка в pre_code \"{self.pre_code}\"")
-            traceback.print_exc()
+        if not self.pre_code_ran:
+            self.pre_code_ran = True
+            try:
+                if len(self.pre_code):
+                    exec(self.pre_code)
+            except Exception:
+                print(f"Грешка в pre_code \"{self.pre_code}\"")
+                traceback.print_exc()
 
         if animation:
             self.container.disable()
@@ -112,12 +118,14 @@ class GeneralPrompt(AnimatedElement):
 
     # Това се вика от state.ui_state, защото там е логиката за queue-ването!
     def hide(self, animation: bool):
-        try:
-            if len(self.end_code):
-                exec(self.end_code)
-        except Exception:
-            print(f"Грешка в end_code \"{self.end_code}\"")
-            traceback.print_exc()
+        if not self.end_code_ran:
+            self.end_code_ran = True
+            try:
+                if len(self.end_code):
+                    exec(self.end_code)
+            except Exception:
+                print(f"Грешка в end_code \"{self.end_code}\"")
+                traceback.print_exc()
 
         if animation:
             UI.set_prompt_in_hide(self)
