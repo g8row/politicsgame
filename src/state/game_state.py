@@ -1,6 +1,5 @@
 from typing import Dict
 import pygame
-import pygame
 import pygame_gui as gui
 
 #
@@ -39,3 +38,41 @@ from gameplay.hammers import Hammers
 calendar: Calendar
 metrics: Metrics
 hammers: Hammers
+
+economy: int = 50     # 0-100
+approval: int = 70     # 0-100
+oligarchs: int = 70     # 0-100
+
+
+def add_economy(amount: int):
+    global economy
+
+    economy += amount
+    if economy < 0:
+        economy = 0
+    if economy > 100:
+        economy = 100
+
+    metrics.set_marker_percentage(0, economy / 100)
+
+
+def add_approval(amount: int):
+    global approval
+
+    approval += amount
+    if approval < 0:
+        approval = 0
+    if approval > 100:
+        approval = 100
+
+    metrics.set_marker_percentage(1, approval / 100)
+
+
+def add_oligarchs(amount: int):
+    global oligarchs
+
+    oligarchs += amount
+    if oligarchs < 0:
+        oligarchs = 0
+    if oligarchs > 100:
+        oligarchs = 100

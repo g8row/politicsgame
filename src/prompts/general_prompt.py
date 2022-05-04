@@ -43,6 +43,7 @@ class GeneralPrompt(AnimatedElement):
 
     pre_code: str = ""
     end_code: str = ""
+    condition: str = ""
 
     # Коя опция като индекс е избрал играча при скриване на prompt-а,
     # може да се access-не в end_code чрез "self.option",
@@ -76,6 +77,16 @@ class GeneralPrompt(AnimatedElement):
 
     def on_show(self):
         pass
+
+    def should_show(self) -> bool:
+        evaluated: bool = True
+        try:
+            if len(self.condition):
+                evaluated = eval(self.condition)
+        except Exception:
+            print(f"Грешка в condition \"{self.pre_code}\"")
+            traceback.print_exc()
+        return evaluated
 
     # Това се вика от state.ui_state, защото там е логиката за queue-ването!
     def show(self, animation: bool):

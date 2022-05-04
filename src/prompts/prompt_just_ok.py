@@ -27,7 +27,9 @@ class PromptJustOk(GeneralPrompt):
     #              може да има html в него (style-ване, bold, italic и т.н.)
     #
     # Виж пример как се вика от ui.py
-    def __init__(self, title: str = "", desc_html: str = "", pre_code: str = "", end_code: str = "", ok_button_text: str = "Добре"):
+    def __init__(
+        self, title: str = "", desc_html: str = "", pre_code: str = "", end_code: str = "", ok_button_text: str = "Добре", condition: str = ""
+    ):
         super().__init__()
         self.set_title(title)
 
@@ -79,6 +81,7 @@ class PromptJustOk(GeneralPrompt):
             }
         )
 
+        self.condition = condition
         self.pre_code = pre_code
         self.end_code = end_code
 

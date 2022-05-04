@@ -74,7 +74,9 @@ def main():
 
             if current_day in GS.script:
                 for s in GS.script[current_day]:
-                    UI.prompt(eval(s))
+                    prompt = eval(s)
+                    if prompt.should_show():
+                        UI.prompt(prompt)
                 GS.script.pop(current_day)
 
         # Локва играта да рънва на 60 FPS вместо да точи процесора:
