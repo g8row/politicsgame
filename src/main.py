@@ -66,16 +66,17 @@ def main():
         seconds_passed = GS.time_speed * GS.dt
         GS.time_in_game += seconds_passed
 
+        current_day_for_calendar = GS.time_in_game / 4
+        calendar_text: gui.elements.UITextBox = UI.get("#calendar_text")
+        in_game_date = date(year=2020, month=1, day=1) + timedelta(weeks=current_day_for_calendar * 4)
+        calendar_text.set_text(f'<font face="Pala", color="#111111", size=4.5>{str(in_game_date)}</font>')
+
         current_day = int(GS.time_in_game / 4)
         if current_day != GS.current_day:
             if current_day == 45:
                 GS.to_show_good_end = True
 
             GS.current_day = current_day
-
-            calendar_text: gui.elements.UITextBox = UI.get("#calendar_text")
-            in_game_date = date(year=2020, month=1, day=1) + timedelta(days=GS.current_day)
-            calendar_text.set_text(f'<font face="Pala", color="#111111", size=4.5>{str(in_game_date)}</font>')
 
             if current_day in GS.script:
                 for s in GS.script[current_day]:
