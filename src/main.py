@@ -26,6 +26,10 @@ def main():
     win = pygame.display.set_mode(GS.win_size, pygame.DOUBLEBUF)     # Прозорец
     pygame.display.set_caption("res publica")     # Заглавие
 
+    pygame.mixer.init()
+    pygame.mixer.music.load("data/caketown.mp3")
+    pygame.mixer.music.play(-1) # Безкрай пъти..
+
     # Game state, всички могат да слагат (и махат) неща в тази променилива
     GS.win_surface = win     # пример..., някои функции искат да имат прозореца
 
