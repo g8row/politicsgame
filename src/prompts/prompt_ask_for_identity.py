@@ -8,6 +8,8 @@ import pygame_gui as gui
 
 from overrides import overrides
 
+import room
+
 
 #
 # Прозорчето в началото, което пита за името на играча и т.н.
@@ -91,21 +93,21 @@ class PromptAskForIdentity(GeneralPrompt):
 
         character_width, character_height = self.CHARACTER_DIM
 
-        self.character = gui.elements.UIImage(
-            relative_rect=pygame.Rect((x + (w - character_width) / 2, self.ELEMENT_PADDING + 35), self.CHARACTER_DIM),
-            image_surface=pygame.transform.scale(pygame.image.load("data/character.png"), self.CHARACTER_DIM),
-            manager=UI.ui_manager,
-            container=self.container,
-            object_id="#dialogue_box_character",
-            visible=0,
-            anchors={
-                'top': 'top',
-                'left': 'left',
-                'bottom': 'top',
-                'right': 'left',
-                'top_target': self.gender_list
-            }
-        )
+        #self.character = gui.elements.UIImage(
+        #    relative_rect=pygame.Rect((x + (w - character_width) / 2, self.ELEMENT_PADDING + 35), self.#CHARACTER_DIM),
+        #    image_surface=pygame.transform.scale(pygame.image.load("data/character.png"), self.CHARACTER_DIM),
+        #    manager=UI.ui_manager,
+        #    container=self.container,
+        #    object_id="#dialogue_box_character",
+        #    visible=0,
+        #    anchors={
+        #        'top': 'top',
+        #        'left': 'left',
+        #        'bottom': 'top',
+        #        'right': 'left',
+        #        'top_target': self.gender_list
+        #    }
+        #)
 
     @overrides
     def on_event(self, e: Event):
@@ -115,6 +117,7 @@ class PromptAskForIdentity(GeneralPrompt):
         if e.type == gui.UI_BUTTON_PRESSED:
             if e.ui_element == self.ok_button:
                 UI.prompt_hide()     # Не скривай директно! Има логика за queue-ване в state.ui_state...
+                room.set_room(self.gender_list.selected_option)
 
         # Изтрий първоначалния текст, когато играча тръгне да пише, иначе "Име..." си стои..
         if e.type == pygame.MOUSEBUTTONDOWN and e.button == pygame.BUTTON_LEFT:

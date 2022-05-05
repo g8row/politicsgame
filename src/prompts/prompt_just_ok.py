@@ -25,8 +25,6 @@ class PromptJustOk(GeneralPrompt):
     #              горе в синьото правоъгълниче
     # desc_html  - текстът, който има анимация на изписване,
     #              може да има html в него (style-ване, bold, italic и т.н.)
-    #
-    # Виж пример как се вика от ui.py
     def __init__(
         self, title: str = "", desc_html: str = "", pre_code: str = "", end_code: str = "", ok_button_text: str = "Добре", condition: str = ""
     ):
