@@ -1,4 +1,5 @@
 from gameplay.hammers import Hammers
+from prompts.prompt_ending import PromptEnding
 import state.game_state as GS
 import state.ui_state as UI
 
@@ -61,8 +62,16 @@ def on_event(e: Event):
     if e.type == pygame.KEYDOWN and e.key == pygame.K_F3:
         UI.prompt(PromptJustOk(title="Здравей", desc_html="Баница"))
 
-    UI.ui_manager.process_events(e)
+    if e.type == pygame.KEYDOWN and e.key == pygame.K_F4:
+        UI.prompt(PromptEnding(title="Лошият край", type="bad", desc_html="Изглежда станахте враг с грешните хора. Убит сте."))
 
+    if e.type == pygame.KEYDOWN and e.key == pygame.K_F5:
+        UI.prompt(PromptEnding(title="Добрият край", type="good", desc_html="Изглежда станахте враг с грешните хора. Убит сте."))
+
+    if e.type == pygame.KEYDOWN and e.key == pygame.K_F6:
+        UI.prompt(PromptEnding(title="Край", type="protest", desc_html="Протести избухват в триъгълника на властта и вашата кариера беше дотук."))
+
+    UI.ui_manager.process_events(e)
 
 def frame():
     UI.ui_manager.update(GS.dt)

@@ -215,5 +215,57 @@
                 "path": "data/ui/marker.png"
             }
         }
+    },
+    "#good_ending": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "shadow_width": "0"
+        },
+        "images": {
+            "background_image": {
+                "path": "data/ui/ending/good.png"
+            }
+        }
+    },
+    "#bad_ending": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "shadow_width": "0"
+        },
+        "images": {
+            "background_image": {
+                "path": "data/ui/ending/bad.png"
+            }
+        }
+    },
+    "#protest_ending": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "shadow_width": "0"
+        },
+        "images": {
+            "background_image": {
+                "path": "data/ui/ending/protest.png"
+            }
+        }
+    },
+    "#ending_desc": {
+        "colours": {
+            "normal_border": "#00000000",
+            "dark_bg": "#00000000"
+        },
+        "misc:": {
+            "border_width": "0",
+            "shadow_width": "0"
+        }
     }
 }

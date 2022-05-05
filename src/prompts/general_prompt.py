@@ -54,14 +54,17 @@ class GeneralPrompt(AnimatedElement):
     # но не винаги има смисъл... (напр. None е за prompt-ове без опции)
     option: int
 
-    def __init__(self):
+    def __init__(self, object_id = "#dialogue_box", dim = None):
         super().__init__()
 
+        if dim is None:
+            dim = self.DIM
+
         self.container = gui.elements.UIPanel(
-            relative_rect=center(UI.ui_manager.root_container, self.DIM),
+            relative_rect=center(UI.ui_manager.root_container, dim),
             starting_layer_height=10,
             manager=UI.ui_manager,
-            object_id="#dialogue_box",
+            object_id=object_id,
             visible=0
         )
 
@@ -76,8 +79,6 @@ class GeneralPrompt(AnimatedElement):
             object_id="#dialogue_box_title",
             visible=0
         )
-
-        self.title.text
 
     def on_show(self):
         pass
