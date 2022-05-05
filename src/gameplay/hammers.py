@@ -6,9 +6,11 @@ import pygame_gui as gui
 
 
 class Hammers():
-    amount: int = 1
+    amount: int
 
     def __init__(self):
+        self.amount = 1
+
         hammers_rect = pygame.Rect(0, 0, 141, 51)
         hammers_rect.topleft = (20, 20)
 
@@ -50,7 +52,6 @@ class Hammers():
 
         hammers_text: gui.elements.UIPanel = UI.get("#hammers_text")
         hammers_text.visible = 1
-
 
     def update_text(self):
         hammers_text: gui.elements.UITextBox = UI.get("#hammers_text")
