@@ -1,5 +1,6 @@
 from prompts.general_prompt import GeneralPrompt
 
+import state.game_state as GS
 import state.ui_state as UI
 
 from pygame.event import Event
@@ -93,6 +94,9 @@ class PromptQuestion(GeneralPrompt):
                 }
             )
 
+            if "(едно чукче)" in o and GS.hammers.amount < 1:
+                button.disable()
+
             self.buttons[button] = index
             index -= 1
 
@@ -130,7 +134,6 @@ class PromptQuestion(GeneralPrompt):
         if e.type == gui.UI_BUTTON_PRESSED:
             if e.ui_element in self.buttons:
                 self.option = self.buttons[e.ui_element]     # Отбележи индекса на избрания отговор...
-                print("Option:", self.option)
                 UI.prompt_hide()     # Не скривай директно! Има логика за queue-ване в state.ui_state...
 
         # Играча цъка текста, който се изписва, тук забързваме анимацията
