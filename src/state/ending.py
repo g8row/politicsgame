@@ -1,4 +1,4 @@
-import ui_state as UI
+import state.ui_state as UI
 from prompts.prompt_ending import PromptEnding
 
 
