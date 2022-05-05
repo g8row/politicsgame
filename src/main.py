@@ -10,6 +10,8 @@ import sys
 import time
 from datetime import date, timedelta
 
+import state.ending as ending
+
 # @Volatile: Всички възможни prompt-ове от script-а трябва да са import-нати тук и в script.py
 from prompts.prompt_ask_for_identity import PromptAskForIdentity
 from prompts.prompt_just_ok import PromptJustOk
@@ -66,6 +68,9 @@ def main():
 
         current_day = int(GS.time_in_game / 4)
         if current_day != GS.current_day:
+            if current_day == 45:
+                GS.to_show_good_end = True
+
             GS.current_day = current_day
 
             calendar_text: gui.elements.UITextBox = UI.get("#calendar_text")
@@ -78,6 +83,16 @@ def main():
                     if prompt.should_show():
                         UI.prompt(prompt)
                 GS.script.pop(current_day)
+
+        if GS.to_show_protest_end:
+            ending.show_protest_ending()
+            GS.to_show_protest_end = False
+        if GS.to_show_good_end:
+            ending.show_good_ending()
+            GS.to_show_good_end = False
+        if GS.to_show_bad_end:
+            ending.show_bad_ending()
+            GS.to_show_bad_end = False
 
         # Локва играта да рънва на 60 FPS вместо да точи процесора:
         curr_time = time.time_ns()

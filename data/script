@@ -364,7 +364,9 @@ ok_button_text = "Ех"
 
 condition = "GS.decision_two"
 end_code = """
+GS.to_show_protest_end = True
 """
+
 [day = 37, type = PromptQuestion]
 title = "Решение"
 desc_html = "<font face='Pala', color='#000000', size=4>Как ще се измъкнете от скандала?</font>"
