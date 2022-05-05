@@ -28,7 +28,7 @@ def main():
 
     pygame.mixer.init()
     pygame.mixer.music.load("data/caketown.mp3")
-    pygame.mixer.music.play(-1) # Безкрай пъти..
+    pygame.mixer.music.play(-1)     # Безкрай пъти..
 
     # Game state, всички могат да слагат (и махат) неща в тази променилива
     GS.win_surface = win     # пример..., някои функции искат да имат прозореца
@@ -51,7 +51,11 @@ def main():
 
     # frame_time_stack = deque([])
 
+    calendar_text: gui.elements.UITextBox = UI.get("#calendar_text")
+    date_0_0 = date(year=2020, month=1, day=1)
+
     prev_time = time.time_ns()
+
     while True:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -70,10 +74,8 @@ def main():
         seconds_passed = GS.time_speed * GS.dt
         GS.time_in_game += seconds_passed
 
-        current_day_for_calendar = GS.time_in_game / 4
-        calendar_text: gui.elements.UITextBox = UI.get("#calendar_text")
-        in_game_date = date(year=2020, month=1, day=1) + timedelta(weeks=current_day_for_calendar * 4)
-        calendar_text.set_text(f'<font face="Pala", color="#111111", size=4.5>{str(in_game_date)}</font>')
+        time_for_calendar = date_0_0 + timedelta(weeks=GS.time_in_game)
+        calendar_text.set_text(f'<font face="Pala", color="#111111", size=4.5>{str(time_for_calendar)}</font>')
 
         current_day = int(GS.time_in_game / 4)
         if current_day != GS.current_day:
