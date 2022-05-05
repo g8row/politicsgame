@@ -361,6 +361,7 @@ title = "..."
 desc_html = "<font face='Pala', color='#000000', size=4></i>Независимо журналистическо разследване разкрива корупционната схема на министъра. Надига се вълна от протести срещу правителството. Нямате друг избор освен да си подадете оставката. Благодарим за службата, уважаеми Премиер. </font>"
 ok_button_text = "Ех"
 
+
 condition = "GS.decision_two"
 end_code = """
 """
@@ -395,17 +396,6 @@ end_code = """
 GS.add_approval(-10)
 GS.add_oligarchs(-48)
 """
-
-[day = 38, type = PromptJustOk]
-title = "..."
-desc_html = "<font face='Pala', color='#000000', size=4></i>Независимо журналистическо разследване разкрива корупционната схема на министъра. Надига се вълна от протести срещу правителството. Нямате друг избор освен да си подадете оставката. Благодарим за службата, уважаеми Премиер. </font>"
-ok_button_text = "Ех"
-
-condition = "GS.decision_two"
-end_code = """
-
-"""
-
 
 #Nezakonni postroiki
 #posledica, ako otkaja

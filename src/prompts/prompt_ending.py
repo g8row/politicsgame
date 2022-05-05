@@ -19,37 +19,23 @@ class PromptEnding(GeneralPrompt):
 
     # title      - oбикновен string; това, което се показва
     #              горе в синьото правоъгълниче
-    def __init__(self, title: str = "", desc_html: str = "", condition: str = ""):
-        super().__init__()
+    # type       - коя картинка да покаже за края, има 4 типа засега: "good", "bad", "protest", "technology"
+    def __init__(self, title: str = "", type: str = "", desc_html: str = "", condition: str = ""):
+        super().__init__(f"#{type}_ending", (802, 602))
         self.set_title(title)
-
-        # Разположи другите елементи.. (desc и ok_button)
-        ux, uy = self.USABLE_TOP_LEFT
-        uw, uh = self.USABLE_DIM
-
-        x, y = ux, uy
-        w, h = uw, uh
-
-        x += self.PADDING
-        y += self.PADDING + self.TOP_PADDING_BONUS
-
-        w -= self.PADDING * 2
-        h -= self.PADDING * 2 + self.TOP_PADDING_BONUS
-
-        tw, th = self.DIM
-        dy = th - (uy + uh)
-
-        button_width, button_height = self.BUTTON_DIM
-
-        dy += button_height
-        dy += self.PADDING
+        
+        x = self.title.rect.x - 8
+        y = self.title.rect.y + 50
+        w, h = (340, 80)
 
         self.desc = gui.elements.UITextBox(
-            html_text="",
-            relative_rect=pygame.Rect((x, y), (w, h - button_height - self.ELEMENT_PADDING)),
+            html_text=desc_html,
+            relative_rect=pygame.Rect((0, 0), (w, h)),
             manager=UI.ui_manager,
             container=self.container,
-            object_id="#dialogue_box_desc"
+            object_id=f"#ending_desc"
         )
+
+        self.desc.set_relative_position((x, y))
 
         self.condition = condition
