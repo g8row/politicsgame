@@ -41,7 +41,7 @@ hammers: Hammers
 
 economy: int = 50     # 0-100
 approval: int = 55     # 0-100
-oligarchs: int = 70     # 0-100
+oligarchs: int = 40     # 0-100
 
 
 def add_economy(amount: int):
