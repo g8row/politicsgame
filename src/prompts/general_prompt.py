@@ -41,31 +41,35 @@ class GeneralPrompt(AnimatedElement):
     container: gui.elements.UIPanel
     title: gui.elements.UILabel
 
-    pre_code: str = ""
-    pre_code_ran: bool = False
+    pre_code: str
+    pre_code_ran: bool
 
-    end_code: str = ""
-    end_code_ran: bool = False
+    end_code: str
+    end_code_ran: bool
 
-    condition: str = ""
+    condition: str
 
     # Коя опция като индекс е избрал играча при скриване на prompt-а,
     # може да се access-не в end_code чрез "self.option",
     # но не винаги има смисъл... (напр. None е за prompt-ове без опции)
     option: int
 
-    def __init__(self, object_id = "#dialogue_box", dim = None):
+    def __init__(self, object_id="#dialogue_box", dim=None):
         super().__init__()
+
+        self.pre_code = ""
+        self.pre_code_ran = False
+
+        self.end_code = ""
+        self.end_code_ran = False
+
+        self.condition = ""
 
         if dim is None:
             dim = self.DIM
 
         self.container = gui.elements.UIPanel(
-            relative_rect=center(UI.ui_manager.root_container, dim),
-            starting_layer_height=10,
-            manager=UI.ui_manager,
-            object_id=object_id,
-            visible=0
+            relative_rect=center(UI.ui_manager.root_container, dim), starting_layer_height=10, manager=UI.ui_manager, object_id=object_id, visible=0
         )
 
         self.container_width = self.container.rect.width

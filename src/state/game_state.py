@@ -46,10 +46,12 @@ oligarchs: int = 70     # 0-100
 
 def add_economy(amount: int):
     global economy
-
+    global to_show_protest_end
+    
     economy += amount
     if economy < 0:
         economy = 0
+        to_show_protest_end = True
     if economy > 100:
         economy = 100
 
@@ -58,10 +60,12 @@ def add_economy(amount: int):
 
 def add_approval(amount: int):
     global approval
+    global to_show_protest_end
 
     approval += amount
     if approval < 0:
         approval = 0
+        to_show_protest_end = True
     if approval > 100:
         approval = 100
 
@@ -70,15 +74,21 @@ def add_approval(amount: int):
 
 def add_oligarchs(amount: int):
     global oligarchs
+    global to_show_bad_end
 
     oligarchs += amount
     if oligarchs < 0:
         oligarchs = 0
+        to_show_bad_end = True
     if oligarchs > 100:
         oligarchs = 100
 
 
 butter_inf_campaign: bool = False
-decision_one: bool = False #Отбелязваме кои прозорци след кои решения идват
+decision_one: bool = False     #Отбелязваме кои прозорци след кои решения идват
 decision_two: bool = False
-econ_growth: int = 0 #Променлива, която означава с колко процента дневно се променя икономиката
+econ_growth: int = 0     #Променлива, която означава с колко процента дневно се променя икономиката
+
+to_show_good_end: bool = False
+to_show_bad_end: bool = False
+to_show_protest_end: bool = False

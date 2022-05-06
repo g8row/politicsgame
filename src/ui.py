@@ -63,13 +63,13 @@ def on_event(e: Event):
         UI.prompt(PromptJustOk(title="Здравей", desc_html="Баница"))
 
     if e.type == pygame.KEYDOWN and e.key == pygame.K_F4:
-        UI.prompt(PromptEnding(title="Лошият край", type="bad", desc_html="Изглежда станахте враг с грешните хора. Убит сте."))
+        GS.to_show_good_end = True
 
     if e.type == pygame.KEYDOWN and e.key == pygame.K_F5:
-        UI.prompt(PromptEnding(title="Добрият край", type="good", desc_html="Изглежда станахте враг с грешните хора. Убит сте."))
+        GS.to_show_protest_end = True
 
     if e.type == pygame.KEYDOWN and e.key == pygame.K_F6:
-        UI.prompt(PromptEnding(title="Край", type="protest", desc_html="Протести избухват в триъгълника на властта и вашата кариера беше дотук."))
+        GS.to_show_bad_end = True
 
     UI.ui_manager.process_events(e)
 
